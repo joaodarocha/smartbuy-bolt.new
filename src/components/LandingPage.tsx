@@ -1,22 +1,22 @@
 import React from 'react';
-import Header from './Header';
-import Hero from './Hero';
 import Advantages from './Advantages';
-import Pricing from './Pricing';
 import FAQ from './FAQ';
 import Footer from './Footer';
+import Header from './Header';
+import Hero from './Hero';
+import Pricing from './Pricing';
 
 const LandingPage: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      <Header/>
       <main className="flex-grow">
-        <Hero />
-        <Advantages />
-        <Pricing />
-        <FAQ />
+        <Hero/>
+        <Advantages/>
+        <Pricing/>
+        <FAQ/>
       </main>
-       <Footer />
+      <Footer/>
     </div>
   );
 };

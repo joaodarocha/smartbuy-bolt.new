@@ -7,7 +7,8 @@ const Footer: React.FC = () => {
         <div className="flex flex-wrap justify-between">
           <div className="w-full md:w-1/3 mb-6 md:mb-0">
             <h3 className="text-xl font-semibold mb-2">ROI Calculator</h3>
-            <p className="text-gray-400">Make informed real estate investment decisions with our powerful ROI calculator.</p>
+            <p className="text-gray-400">Make informed real estate investment decisions
+              with our powerful ROI calculator.</p>
           </div>
           <div className="w-full md:w-1/3 mb-6 md:mb-0">
             <h3 className="text-xl font-semibold mb-2">Quick Links</h3>

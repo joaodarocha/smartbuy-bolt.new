@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import React, { useState } from 'react';
 
-const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, answer }) => {
+const FAQItem: React.FC<{ question: string; answer: string }> = ({
+                                                                   question,
+                                                                   answer
+                                                                 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -12,9 +15,9 @@ const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, ans
       >
         <span className="text-lg font-semibold">{question}</span>
         {isOpen ? (
-          <ChevronUp className="h-5 w-5 text-gray-500" />
+          <ChevronUp className="h-5 w-5 text-gray-500"/>
         ) : (
-          <ChevronDown className="h-5 w-5 text-gray-500" />
+          <ChevronDown className="h-5 w-5 text-gray-500"/>
         )}
       </button>
       {isOpen && <p className="mt-2 text-gray-600">{answer}</p>}
@@ -49,10 +52,11 @@ const FAQ: React.FC = () => {
   return (
     <div id="faq" className="bg-white py-16">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+        <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked
+          Questions</h2>
         <div className="max-w-3xl mx-auto">
           {faqs.map((faq, index) => (
-            <FAQItem key={index} question={faq.question} answer={faq.answer} />
+            <FAQItem key={index} question={faq.question} answer={faq.answer}/>
           ))}
         </div>
       </div>

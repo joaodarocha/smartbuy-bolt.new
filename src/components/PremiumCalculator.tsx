@@ -33,16 +33,16 @@ const PremiumCalculator: React.FC = () => {
     const loanAmount = price - down;
     const monthlyInterestRate = interestRate / 12;
     const numberOfPayments = term * 12;
-    const monthlyMortgagePayment = (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments)) / (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
+    const monthlyMortgagePayment = ( loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments) ) / ( Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1 );
 
     const annualRent = rent * 12;
-    const effectiveAnnualRent = annualRent * (1 - vacancy);
+    const effectiveAnnualRent = annualRent * ( 1 - vacancy );
     const annualManagementFee = effectiveAnnualRent * managementFee;
     const annualMortgagePayment = monthlyMortgagePayment * 12;
     const annualCashFlow = effectiveAnnualRent - expenses - annualMortgagePayment - annualManagementFee - capEx;
     const appreciationValue = price * appreciation;
     const totalReturn = annualCashFlow + appreciationValue;
-    const calculatedRoi = (totalReturn / down) * 100;
+    const calculatedRoi = ( totalReturn / down ) * 100;
 
     setRoi(parseFloat(calculatedRoi.toFixed(2)));
   };
@@ -52,7 +52,8 @@ const PremiumCalculator: React.FC = () => {
       <h2 className="text-2xl font-semibold mb-4">Premium ROI Calculator</h2>
       <div className="space-y-4">
         <div>
-          <label htmlFor="purchasePrice" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="purchasePrice"
+                 className="block text-sm font-medium text-gray-700">
             Purchase Price (€)
           </label>
           <input
@@ -64,7 +65,8 @@ const PremiumCalculator: React.FC = () => {
           />
         </div>
         <div>
-          <label htmlFor="monthlyRent" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="monthlyRent"
+                 className="block text-sm font-medium text-gray-700">
             Monthly Rent (€)
           </label>
           <input
@@ -76,7 +78,8 @@ const PremiumCalculator: React.FC = () => {
           />
         </div>
         <div>
-          <label htmlFor="annualExpenses" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="annualExpenses"
+                 className="block text-sm font-medium text-gray-700">
             Annual Expenses (€)
           </label>
           <input
@@ -88,7 +91,8 @@ const PremiumCalculator: React.FC = () => {
           />
         </div>
         <div>
-          <label htmlFor="propertyAppreciation" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="propertyAppreciation"
+                 className="block text-sm font-medium text-gray-700">
             Annual Property Appreciation (%)
           </label>
           <input
@@ -100,7 +104,8 @@ const PremiumCalculator: React.FC = () => {
           />
         </div>
         <div>
-          <label htmlFor="mortgageInterestRate" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="mortgageInterestRate"
+                 className="block text-sm font-medium text-gray-700">
             Mortgage Interest Rate (%)
           </label>
           <input
@@ -112,7 +117,8 @@ const PremiumCalculator: React.FC = () => {
           />
         </div>
         <div>
-          <label htmlFor="mortgageTerm" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="mortgageTerm"
+                 className="block text-sm font-medium text-gray-700">
             Mortgage Term (years)
           </label>
           <input
@@ -124,7 +130,8 @@ const PremiumCalculator: React.FC = () => {
           />
         </div>
         <div>
-          <label htmlFor="downPayment" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="downPayment"
+                 className="block text-sm font-medium text-gray-700">
             Down Payment (€)
           </label>
           <input
@@ -136,7 +143,8 @@ const PremiumCalculator: React.FC = () => {
           />
         </div>
         <div>
-          <label htmlFor="vacancyRate" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="vacancyRate"
+                 className="block text-sm font-medium text-gray-700">
             Vacancy Rate (%)
           </label>
           <input
@@ -148,7 +156,8 @@ const PremiumCalculator: React.FC = () => {
           />
         </div>
         <div>
-          <label htmlFor="propertyManagementFee" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="propertyManagementFee"
+                 className="block text-sm font-medium text-gray-700">
             Property Management Fee (%)
           </label>
           <input
@@ -160,7 +169,8 @@ const PremiumCalculator: React.FC = () => {
           />
         </div>
         <div>
-          <label htmlFor="capitalExpenditures" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="capitalExpenditures"
+                 className="block text-sm font-medium text-gray-700">
             Annual Capital Expenditures (€)
           </label>
           <input

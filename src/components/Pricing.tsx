@@ -1,5 +1,5 @@
-import React from 'react';
 import { Check } from 'lucide-react';
+import React from 'react';
 
 const PricingTier: React.FC<{
   name: string;
@@ -7,18 +7,21 @@ const PricingTier: React.FC<{
   features: string[];
   recommended?: boolean;
 }> = ({ name, price, features, recommended }) => (
-  <div className={`bg-white rounded-lg shadow-md p-6 flex flex-col ${recommended ? 'border-2 border-blue-500' : ''}`}>
+  <div
+    className={`bg-white rounded-lg shadow-md p-6 flex flex-col ${recommended ? 'border-2 border-blue-500' : ''}`}>
     {recommended && (
-      <span className="bg-blue-500 text-white text-xs font-semibold px-3 py-1 rounded-full self-start mb-4">
+      <span
+        className="bg-blue-500 text-white text-xs font-semibold px-3 py-1 rounded-full self-start mb-4">
         Recommended
       </span>
     )}
     <h3 className="text-xl font-semibold mb-2">{name}</h3>
-    <p className="text-3xl font-bold mb-4">{price}<span className="text-sm font-normal">/month</span></p>
+    <p className="text-3xl font-bold mb-4">{price}<span
+      className="text-sm font-normal">/month</span></p>
     <ul className="space-y-3 mb-6">
       {features.map((feature, index) => (
         <li key={index} className="flex items-center space-x-2">
-          <Check className="h-5 w-5 text-green-500" />
+          <Check className="h-5 w-5 text-green-500"/>
           <span>{feature}</span>
         </li>
       ))}

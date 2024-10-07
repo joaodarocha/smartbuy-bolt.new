@@ -1,6 +1,7 @@
-import React from 'react';
 import { Calculator } from 'lucide-react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import LoginButton from './LoginButton';
 
 const Header: React.FC = () => {
   const scrollToSection = (id: string) => {
@@ -14,11 +15,11 @@ const Header: React.FC = () => {
     <header className="bg-white shadow-md">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
-          <Calculator className="h-8 w-8 text-blue-600" />
+          <Calculator className="h-8 w-8 text-blue-600"/>
           <span className="text-xl font-bold text-gray-800">ROI Calculator</span>
         </Link>
         <nav>
-          <ul className="flex space-x-6">
+          <ul className="flex space-x-6 items-center">
             <li>
               <button
                 onClick={() => scrollToSection('pricing')}
@@ -34,6 +35,9 @@ const Header: React.FC = () => {
               >
                 FAQs
               </button>
+            </li>
+            <li>
+              <LoginButton/>
             </li>
           </ul>
         </nav>

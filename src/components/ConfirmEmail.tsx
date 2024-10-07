@@ -20,7 +20,8 @@ const ConfirmEmail: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center p-6 bg-white rounded-lg shadow-md max-w-md mx-auto">
+    <div
+      className="flex flex-col items-center p-6 bg-white rounded-lg shadow-md max-w-md mx-auto">
       <h2 className="text-2xl font-semibold mb-4">Confirm Your Email</h2>
       <p className="mb-4">
         Please enter your email address to confirm your registration.

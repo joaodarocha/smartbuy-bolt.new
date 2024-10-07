@@ -18,7 +18,7 @@ const BasicCalculator: React.FC = () => {
 
     const annualRent = rent * 12;
     const annualProfit = annualRent - expenses;
-    const calculatedRoi = (annualProfit / price) * 100;
+    const calculatedRoi = ( annualProfit / price ) * 100;
     setRoi(parseFloat(calculatedRoi.toFixed(2)));
   };
 
@@ -27,7 +27,8 @@ const BasicCalculator: React.FC = () => {
       <h2 className="text-2xl font-semibold mb-4">Basic ROI Calculator</h2>
       <div className="space-y-4">
         <div>
-          <label htmlFor="purchasePrice" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="purchasePrice"
+                 className="block text-sm font-medium text-gray-700">
             Purchase Price (€)
           </label>
           <input
@@ -39,7 +40,8 @@ const BasicCalculator: React.FC = () => {
           />
         </div>
         <div>
-          <label htmlFor="monthlyRent" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="monthlyRent"
+                 className="block text-sm font-medium text-gray-700">
             Monthly Rent (€)
           </label>
           <input
@@ -51,7 +53,8 @@ const BasicCalculator: React.FC = () => {
           />
         </div>
         <div>
-          <label htmlFor="annualExpenses" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="annualExpenses"
+                 className="block text-sm font-medium text-gray-700">
             Annual Expenses (€)
           </label>
           <input
