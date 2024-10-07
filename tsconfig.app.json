@@ -1,11 +1,11 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "composite": true,
+    "jsx": "react-jsx",
     "module": "ESNext",
-    "moduleResolution": "Node",
-    "allowSyntheticDefaultImports": true
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }
-

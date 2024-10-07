@@ -1,11 +1,11 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "composite": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "allowSyntheticDefaultImports": true
+    "module": "CommonJS",
+    "target": "ES6",
+    "lib": ["ES6"],
+    "outDir": "./dist"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts"]
+  "include": ["server/**/*"],
+  "exclude": ["node_modules"]
 }
-

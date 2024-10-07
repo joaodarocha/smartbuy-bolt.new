@@ -37,15 +37,12 @@ async function initializeDatabase() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       email TEXT UNIQUE,
       password TEXT,
-      is_confirmed BOOLEAN DEFAULT 0,
-      confirmation_token TEXT
+      is_confirmed BOOLEAN DEFAULT 1
     )
   `);
 
   console.log('Database initialized successfully');
 }
-
-initializeDatabase().catch(console.error);
 
 initializeDatabase().catch(console.error);
 
@@ -56,10 +53,10 @@ const mg = mailgun.client({
   key: process.env.MAILGUN_API_KEY,
 });
 
-// Function to send confirmation email
+// Function to send confirmation email (kept for future use)
 async function sendConfirmationEmail(email, token) {
   const confirmationLink = `${process.env.FRONTEND_URL}/confirm-email/${token}`;
-  
+
   const msg = {
     from: 'Real Estate ROI Calculator <noreply@yourdomain.com>',
     to: email,
@@ -84,32 +81,21 @@ app.post('/api/register', async (req, res) => {
       return res.status(400).json({ error: 'User already exists' });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const confirmationToken = uuidv4();
+    // Directly insert the user without confirmation token and set is_confirmed to 1
     const result = await db.run(
-      'INSERT INTO users (email, password, confirmation_token) VALUES (?, ?, ?)',
-      email, hashedPassword, confirmationToken
+        'INSERT INTO users (email, password, is_confirmed) VALUES (?, ?, 1)',
+        email, hashedPassword
     );
-    await sendConfirmationEmail(email, confirmationToken);
-    res.status(201).json({ message: 'User registered. Please check your email to confirm your account.' });
+    res.status(201).json({ message: 'User registered successfully. You can now log in.' });
   } catch (error) {
     console.error('Registration error:', error);
     res.status(500).json({ error: 'Error registering user' });
   }
 });
 
+// Keep the confirm-email endpoint for future use
 app.get('/api/confirm-email/:token', async (req, res) => {
-  try {
-    const { token } = req.params;
-    const user = await db.get('SELECT * FROM users WHERE confirmation_token = ?', token);
-    if (!user) {
-      return res.status(400).json({ error: 'Invalid confirmation token' });
-    }
-    await db.run('UPDATE users SET is_confirmed = 1, confirmation_token = NULL WHERE id = ?', user.id);
-    res.json({ message: 'Email confirmed successfully. You can now log in.' });
-  } catch (error) {
-    console.error('Email confirmation error:', error);
-    res.status(500).json({ error: 'Error confirming email' });
-  }
+  res.json({ message: 'Email confirmation is currently disabled for testing purposes.' });
 });
 
 app.post('/api/login', async (req, res) => {
@@ -117,9 +103,7 @@ app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
     const user = await db.get('SELECT * FROM users WHERE email = ?', email);
     if (user && await bcrypt.compare(password, user.password)) {
-      if (!user.is_confirmed) {
-        return res.status(401).json({ error: 'Please confirm your email before logging in' });
-      }
+      // Remove the email confirmation check
       const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
       res.json({ token });
     } else {
