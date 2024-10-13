@@ -16,8 +16,8 @@ const PricingTier: React.FC<{
       </span>
     )}
     <h3 className="text-xl font-semibold mb-2">{name}</h3>
-    <p className="text-3xl font-bold mb-4">{price}<span
-      className="text-sm font-normal">/month</span></p>
+    <p className="text-3xl font-bold mb-4">{price}<span className="text-sm font-normal"> one-time payment</span>
+    </p>
     <ul className="space-y-3 mb-6">
       {features.map((feature, index) => (
         <li key={index} className="flex items-center space-x-2">
@@ -37,35 +37,26 @@ const PricingTier: React.FC<{
 const Pricing: React.FC = () => {
   const tiers = [
     {
-      name: 'Basic',
-      price: '$9.99',
+      name: 'Advanced',
+      price: '20€',
       features: [
+        'Down payment calculation',
+        'Monthly mortgage cost estimation',
         'Basic ROI calculations',
-        'Up to 5 properties',
-        'Email support',
+        'Suitable for home buyers',
       ],
     },
     {
-      name: 'Advanced',
-      price: '$19.99',
+      name: 'Premium',
+      price: '50€',
       features: [
+        'All Advanced features',
         'Advanced ROI calculations',
-        'Up to 20 properties',
-        'Priority email support',
-        'Property comparison tool',
+        'Cash flow analysis',
+        'Property appreciation forecasts',
+        'Suitable for real estate investors',
       ],
       recommended: true,
-    },
-    {
-      name: 'Pro',
-      price: '$39.99',
-      features: [
-        'Premium ROI calculations',
-        'Unlimited properties',
-        '24/7 phone support',
-        'Advanced analytics',
-        'Custom reports',
-      ],
     },
   ];
 
@@ -73,7 +64,7 @@ const Pricing: React.FC = () => {
     <div id="pricing" className="bg-gray-100 py-16">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-12">Choose Your Plan</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {tiers.map((tier, index) => (
             <PricingTier key={index} {...tier} />
           ))}

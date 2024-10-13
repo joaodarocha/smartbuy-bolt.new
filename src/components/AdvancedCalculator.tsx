@@ -1,4 +1,25 @@
+import {
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+} from 'chart.js';
 import React, { useState } from 'react';
+import { Line } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const AdvancedCalculator: React.FC = () => {
   const [purchasePrice, setPurchasePrice] = useState('');
@@ -9,6 +30,7 @@ const AdvancedCalculator: React.FC = () => {
   const [mortgageTerm, setMortgageTerm] = useState('');
   const [downPayment, setDownPayment] = useState('');
   const [roi, setRoi] = useState<number | null>(null);
+  const [chartData, setChartData] = useState<any>(null);
 
   const calculateROI = () => {
     const price = parseFloat(purchasePrice);
@@ -37,6 +59,46 @@ const AdvancedCalculator: React.FC = () => {
     const calculatedRoi = ( totalReturn / down ) * 100;
 
     setRoi(parseFloat(calculatedRoi.toFixed(2)));
+
+    // Calculate mortgage amortization and equity
+    const labels = [];
+    const principalData = [];
+    const equityData = [];
+    let remainingPrincipal = loanAmount;
+    let propertyValue = price;
+
+    for (let year = 0; year <= term; year++) {
+      labels.push(`Year ${year}`);
+      principalData.push(remainingPrincipal);
+      equityData.push(propertyValue - remainingPrincipal);
+
+      for (let month = 0; month < 12; month++) {
+        if (year < term) {
+          const interestPayment = remainingPrincipal * monthlyInterestRate;
+          const principalPayment = monthlyMortgagePayment - interestPayment;
+          remainingPrincipal -= principalPayment;
+        }
+      }
+      propertyValue *= ( 1 + appreciation );
+    }
+
+    setChartData({
+      labels,
+      datasets: [
+        {
+          label: 'Remaining Principal',
+          data: principalData,
+          borderColor: 'rgb(255, 99, 132)',
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        },
+        {
+          label: 'Total Equity',
+          data: equityData,
+          borderColor: 'rgb(53, 162, 235)',
+          backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        },
+      ],
+    });
   };
 
   return (
@@ -145,6 +207,24 @@ const AdvancedCalculator: React.FC = () => {
         <div className="mt-6 p-4 bg-gray-50 rounded-md">
           <h3 className="text-lg font-medium text-gray-900">Result</h3>
           <p className="mt-2 text-3xl font-bold text-blue-600">{roi}% ROI</p>
+        </div>
+      )}
+      {chartData && (
+        <div className="mt-6">
+          <h3 className="text-lg font-medium text-gray-900 mb-4">Mortgage Principal and
+            Equity Over Time</h3>
+          <Line data={chartData} options={{
+            responsive: true,
+            plugins: {
+              legend: {
+                position: 'top' as const,
+              },
+              title: {
+                display: true,
+                text: 'Mortgage Principal and Equity',
+              },
+            },
+          }}/>
         </div>
       )}
     </div>

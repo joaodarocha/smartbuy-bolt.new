@@ -16,9 +16,8 @@ const LoginPage: React.FC = () => {
     try {
       await login(email, password);
       navigate('/home');
-    } catch (err: unknown) {
-      // @ts-expect-error err is of type unknown
-      setError('Failed to log in. Please check your credentials.\nError: ' + err.message);
+    } catch (err) {
+      setError('Failed to log in. Please check your credentials.');
     }
   };
 

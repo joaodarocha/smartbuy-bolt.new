@@ -5,6 +5,7 @@ import HomePage from './components/HomePage';
 import LandingPage from './components/LandingPage';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
+import UserProfile from './components/UserProfile';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
 const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
@@ -21,7 +22,8 @@ function App() {
           <Route path="/login" element={<LoginPage/>}/>
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="/confirm-email/:token" element={<ConfirmEmail/>}/>
-          <Route path="/home" element={<PrivateRoute element={<HomePage/>}/>}/>
+          <Route path="/home/*" element={<PrivateRoute element={<HomePage/>}/>}/>
+          <Route path="/profile" element={<PrivateRoute element={<UserProfile/>}/>}/>
         </Routes>
       </Router>
     </AuthProvider>

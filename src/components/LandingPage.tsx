@@ -9,7 +9,7 @@ import Pricing from './Pricing';
 const LandingPage: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <Header/>
+      <Header showPricing showFAQ/>
       <main className="flex-grow">
         <Hero/>
         <Advantages/>

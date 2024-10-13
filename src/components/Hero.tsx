@@ -13,12 +13,14 @@ const Hero: React.FC = () => {
           <p className="text-xl mb-6">
             Make informed investment decisions with our powerful ROI calculator.
           </p>
-          <Link
-            to="/register"
-            className="bg-white text-blue-600 font-semibold py-3 px-6 rounded-full hover:bg-blue-100 transition duration-300"
-          >
-            Get Started
-          </Link>
+          <div className="flex space-x-4">
+            <Link
+              to="/register"
+              className="bg-white text-blue-600 font-semibold py-3 px-6 rounded-full hover:bg-blue-100 transition duration-300"
+            >
+              Get Started
+            </Link>
+          </div>
         </div>
         <div className="md:w-1/2">
           <img

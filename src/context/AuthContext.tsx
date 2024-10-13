@@ -1,8 +1,15 @@
 import axios from 'axios';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
+interface User {
+  id: string;
+  email: string;
+  type: 'advanced' | 'premium';
+}
+
 interface AuthContextType {
   isAuthenticated: boolean;
+  user: User | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
@@ -19,13 +26,35 @@ export const useAuth = () => {
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       setIsAuthenticated(true);
+      fetchUserData(token);
     }
   }, []);
+
+  const fetchUserData = async (token: string) => {
+    try {
+      const response = await axios.get('http://localhost:3001/api/user', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      // Ensure we only set properties that can be safely cloned
+      const safeUser: User = {
+        id: response.data.id,
+        email: response.data.email,
+        type: response.data.type
+      };
+
+      setUser(safeUser);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      logout();
+    }
+  };
 
   const login = async (email: string, password: string) => {
     try {
@@ -33,10 +62,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         email,
         password
       });
-      const { token } = response.data;
+      const { token, user } = response.data;
       localStorage.setItem('token', token);
       setIsAuthenticated(true);
+
+      // Ensure we only set properties that can be safely cloned
+      const safeUser: User = {
+        id: user.id,
+        email: user.email,
+        type: user.type
+      };
+
+      setUser(safeUser);
     } catch (error) {
+      console.error('Login error:', error);
       throw new Error('Login failed');
     }
   };
@@ -44,10 +83,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
+    setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

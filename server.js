@@ -10,6 +10,7 @@ import Mailgun from 'mailgun.js';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs/promises';
 
 dotenv.config();
 
@@ -27,6 +28,15 @@ async function initializeDatabase() {
   const dbPath = path.join(__dirname, 'database.sqlite');
   console.log('Database path:', dbPath);
 
+  // Check if the database file exists
+  try {
+    await fs.access(dbPath);
+    console.log('Database file exists');
+  } catch (error) {
+    console.log('Database file does not exist, creating a new one');
+    await fs.writeFile(dbPath, ''); // Create an empty file
+  }
+
   db = await open({
     filename: dbPath,
     driver: sqlite3.Database
@@ -37,7 +47,8 @@ async function initializeDatabase() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       email TEXT UNIQUE,
       password TEXT,
-      is_confirmed BOOLEAN DEFAULT 1
+      is_confirmed BOOLEAN DEFAULT 1,
+      type TEXT CHECK(type IN ('advanced', 'premium')) DEFAULT 'advanced'
     )
   `);
 
@@ -56,7 +67,7 @@ const mg = mailgun.client({
 // Function to send confirmation email (kept for future use)
 async function sendConfirmationEmail(email, token) {
   const confirmationLink = `${process.env.FRONTEND_URL}/confirm-email/${token}`;
-
+  
   const msg = {
     from: 'Real Estate ROI Calculator <noreply@yourdomain.com>',
     to: email,
@@ -75,7 +86,7 @@ async function sendConfirmationEmail(email, token) {
 
 app.post('/api/register', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, type } = req.body;
     const existingUser = await db.get('SELECT * FROM users WHERE email = ?', email);
     if (existingUser) {
       return res.status(400).json({ error: 'User already exists' });
@@ -83,8 +94,8 @@ app.post('/api/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     // Directly insert the user without confirmation token and set is_confirmed to 1
     const result = await db.run(
-        'INSERT INTO users (email, password, is_confirmed) VALUES (?, ?, 1)',
-        email, hashedPassword
+      'INSERT INTO users (email, password, is_confirmed, type) VALUES (?, ?, 1, ?)',
+      email, hashedPassword, type || 'advanced'
     );
     res.status(201).json({ message: 'User registered successfully. You can now log in.' });
   } catch (error) {
@@ -105,13 +116,52 @@ app.post('/api/login', async (req, res) => {
     if (user && await bcrypt.compare(password, user.password)) {
       // Remove the email confirmation check
       const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-      res.json({ token });
+      res.json({ token, user: { id: user.id, email: user.email, type: user.type } });
     } else {
       res.status(401).json({ error: 'Invalid credentials' });
     }
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ error: 'Error logging in' });
+  }
+});
+
+app.get('/api/user', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ error: 'No token provided' });
+    }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await db.get('SELECT id, email, type FROM users WHERE id = ?', decoded.userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({ error: 'Error fetching user data' });
+  }
+});
+
+app.put('/api/user/update-subscription', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ error: 'No token provided' });
+    }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const { subscriptionType } = req.body;
+    
+    if (!['advanced', 'premium'].includes(subscriptionType)) {
+      return res.status(400).json({ error: 'Invalid subscription type' });
+    }
+
+    await db.run('UPDATE users SET type = ? WHERE id = ?', subscriptionType, decoded.userId);
+    res.json({ message: 'Subscription updated successfully' });
+  } catch (error) {
+    console.error('Error updating subscription:', error);
+    res.status(500).json({ error: 'Error updating subscription' });
   }
 });
 

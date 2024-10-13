@@ -8,6 +8,7 @@ const RegisterPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [subscriptionType, setSubscriptionType] = useState('advanced');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
@@ -25,10 +26,10 @@ const RegisterPage: React.FC = () => {
     try {
       const response = await axios.post('http://localhost:3001/api/register', {
         email,
-        password
+        password,
+        type: subscriptionType
       });
       setSuccess(response.data.message);
-      // Redirect to login page after successful registration
       setTimeout(() => navigate('/login'), 3000);
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to register. Please try again.');
@@ -101,6 +102,25 @@ const RegisterPage: React.FC = () => {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="subscription-type"
+                     className="block text-sm font-medium text-gray-700">
+                Subscription Type
+              </label>
+              <div className="mt-1">
+                <select
+                  id="subscription-type"
+                  name="subscription-type"
+                  value={subscriptionType}
+                  onChange={(e) => setSubscriptionType(e.target.value)}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                >
+                  <option value="advanced">Advanced</option>
+                  <option value="premium">Premium</option>
+                </select>
               </div>
             </div>
 
