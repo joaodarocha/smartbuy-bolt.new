@@ -9,6 +9,7 @@ const UserProfile: React.FC = () => {
 
   const handleSubscriptionChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newType = e.target.value;
+    // @ts-ignore
     setSubscriptionType(newType);
 
     try {

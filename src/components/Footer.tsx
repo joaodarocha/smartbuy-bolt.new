@@ -1,12 +1,17 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Footer: React.FC = () => {
+  const { t } = useTranslation();
+
+
   return (
     <footer className="bg-gray-800 text-white py-8">
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap justify-between">
           <div className="w-full md:w-1/3 mb-6 md:mb-0">
-            <h3 className="text-xl font-semibold mb-2">ROI Calculator</h3>
+            <h3
+              className="text-xl font-semibold mb-2">{t('appName')}</h3>
             <p className="text-gray-400">Make informed real estate investment decisions
               with our powerful ROI calculator.</p>
           </div>
@@ -26,7 +31,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
-          <p>&copy; 2024 ROI Calculator. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} {t('appName')}. All rights reserved.</p>
         </div>
       </div>
     </footer>
