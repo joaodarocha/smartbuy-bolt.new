@@ -1,24 +1,24 @@
-import { Calculator, DollarSign, FileText, Home, LucideIcon } from 'lucide-react';
+import { Calculator, DollarSign, FileText, Home } from 'lucide-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import HeaderButton from './Buttons/HeaderButton';
 import LanguageButton from './Buttons/LanguageButton';
-import HeaderButton from './HeaderButton';
-import LoginButton from './LoginButton';
-import UserButton from './UserButton';
+import LoginButton from './Buttons/LoginButton';
+import UserButton from './Buttons/UserButton';
 
 interface HeaderProps {
   showPricing?: boolean;
   showFAQ?: boolean;
   showUserIcon?: boolean;
-  additionalMenuItems?: { icon: LucideIcon; label: string; onClick: () => void }[];
+  showMenuItems?: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({
                                          showPricing = false,
                                          showFAQ = false,
                                          showUserIcon = false,
-                                         additionalMenuItems = []
+                                         showMenuItems = false,
                                        }) => {
   const { t } = useTranslation();
 
@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({
         </Link>
         <nav className="flex items-center space-x-6">
           <ul className="flex space-x-6">
-            {menuItems.map((item, index) => (
+            {showMenuItems && menuItems.map((item, index) => (
               <li key={index}>
                 <HeaderButton icon={item.icon} label={item.label} path={item.path}/>
               </li>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import DownPaymentInput from './DownPaymentInput';
 import InterestRateInput from './InterestRateInput';
 import LocationInput from './LocationInput';
@@ -30,6 +31,8 @@ const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
                                                                    location,
                                                                    setLocation,
                                                                  }) => {
+  const { t } = useTranslation();
+
   const adjustDownPayment = (amount: number) => {
     setDownPayment(Math.max(0, Math.min(100, downPayment + amount)));
   };
@@ -38,7 +41,8 @@ const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
 
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-4">Property Details</h2>
+      <h2
+        className="text-xl font-semibold mb-4">{t('calculator.propertyDetails')}</h2>
       <div className="space-y-4">
         <PropertyPriceInput
           propertyPrice={propertyPrice}

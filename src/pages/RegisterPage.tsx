@@ -2,7 +2,7 @@ import axios from 'axios';
 import { UserPlus } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LoginButton from './LoginButton';
+import LoginButton from '../components/Buttons/LoginButton';
 
 const RegisterPage: React.FC = () => {
   const [email, setEmail] = useState('');

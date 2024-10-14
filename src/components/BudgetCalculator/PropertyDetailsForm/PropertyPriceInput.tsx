@@ -1,5 +1,5 @@
-import { Euro } from 'lucide-react';
-import React from 'react';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface PropertyPriceInputProps {
   propertyPrice: number;
@@ -12,32 +12,64 @@ const PropertyPriceInput: React.FC<PropertyPriceInputProps> = ({
                                                                  setPropertyPrice,
                                                                  presetPropertyPrices,
                                                                }) => {
+  const { t } = useTranslation();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editValue, setEditValue] = useState(propertyPrice);
+
+  const formatCurrency = (value: number) => {
+    return `€${value.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+  };
+
+  const handleEditChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEditValue(Number(event.target.value));
+  };
+
+  const handleEditBlur = () => {
+    setPropertyPrice(editValue);
+    setIsEditing(false);
+  };
+
+  const handleEditClick = () => {
+    setEditValue(propertyPrice);
+    setIsEditing(true);
+  };
+
   return (
     <div>
       <label htmlFor="propertyPrice" className="block text-sm font-medium text-gray-700">
-        Property Price (€)
+        {t('calculator.propertyPrice')} (€)
       </label>
-      <div className="mt-1 relative rounded-md shadow-sm">
-        <div
-          className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <Euro className="h-5 w-5 text-gray-400"/>
-        </div>
-        <input
-          type="number"
-          id="propertyPrice"
-          className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 pr-12 sm:text-sm border-gray-300 rounded-md"
-          value={propertyPrice}
-          onChange={(e) => setPropertyPrice(Number(e.target.value))}
-        />
+      <div
+        className="mt-1 relative rounded-md shadow-sm flex items-center justify-center">
+        {isEditing ? (
+          <input
+            type="number"
+            value={editValue}
+            onChange={handleEditChange}
+            onBlur={handleEditBlur}
+            className="text-center text-2xl border-gray-300 rounded-md"
+            autoFocus
+          />
+        ) : (
+          <div
+            className="text-center text-2xl cursor-pointer"
+            onClick={handleEditClick}
+          >
+            {formatCurrency(propertyPrice)}
+          </div>
+        )}
       </div>
-      <div className="mt-2 flex flex-wrap gap-2">
-        {presetPropertyPrices.map((price) => (
+      <div className="mt-2 flex flex-wrap gap-2 justify-center">
+        {[100000, 200000, 300000, 400000, 500000, 600000].map((price) => (
           <button
             key={price}
             onClick={() => setPropertyPrice(price)}
             className="px-2 py-1 text-sm bg-gray-200 rounded hover:bg-gray-300 transition-colors"
           >
-            €{price.toLocaleString()}
+            {formatCurrency(price)}
           </button>
         ))}
       </div>

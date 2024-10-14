@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface MortgageTermInputProps {
   mortgageTerm: number;
@@ -9,21 +10,48 @@ const MortgageTermInput: React.FC<MortgageTermInputProps> = ({
                                                                mortgageTerm,
                                                                setMortgageTerm,
                                                              }) => {
+  const { t } = useTranslation();
+  const [term, setTerm] = useState(40);
+
+  const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(event.target.value);
+    setTerm(value);
+    setMortgageTerm(value);
+  };
+
+  const handleButtonClick = (value: number) => {
+    setTerm(value);
+    setMortgageTerm(value);
+  };
+
   return (
     <div>
       <label htmlFor="mortgageTerm" className="block text-sm font-medium text-gray-700">
-        Mortgage Term (years)
+        {t('calculator.mortgageTerm')}
       </label>
-      <div className="mt-1 flex gap-2">
-        {[10, 15, 20, 25, 30].map((term) => (
+      <div className="mt-4 text-2xl font-bold text-center">
+        {term} {t('shared.years')}
+      </div>
+      <input
+        type="range"
+        id="mortgageTerm"
+        min="10"
+        max="40"
+        step="1"
+        value={term}
+        onChange={handleSliderChange}
+        className="w-full mt-2"
+      />
+      <div className="mt-4 flex gap-2 justify-center">
+        {[10, 15, 20, 25, 30, 35, 40].map((value) => (
           <button
-            key={term}
-            onClick={() => setMortgageTerm(term)}
+            key={value}
+            onClick={() => handleButtonClick(value)}
             className={`px-3 py-2 text-sm rounded transition-colors ${
-              mortgageTerm === term ? 'bg-blue-500 text-white' : 'bg-gray-200 hover:bg-gray-300'
+              term === value ? 'bg-blue-500 text-white' : 'bg-gray-200 hover:bg-gray-300'
             }`}
           >
-            {term}
+            {value}
           </button>
         ))}
       </div>

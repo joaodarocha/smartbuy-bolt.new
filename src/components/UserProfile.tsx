@@ -8,9 +8,8 @@ const UserProfile: React.FC = () => {
   const [message, setMessage] = useState('');
 
   const handleSubscriptionChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newType = e.target.value;
-    // @ts-ignore
-    setSubscriptionType(newType);
+    const newType: string = e.target.value;
+    setSubscriptionType(newType as 'advanced' | 'premium');
 
     try {
       await axios.put('http://localhost:3001/api/user/update-subscription', {

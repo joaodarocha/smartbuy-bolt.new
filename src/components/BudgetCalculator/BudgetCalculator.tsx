@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Actions from './Actions';
 import AdvancedOptions from './AdvancedOptions';
 import CostsBreakdown from './CostsBreakdown';
@@ -10,6 +11,7 @@ interface BudgetCalculatorProps {
 }
 
 const BudgetCalculator: React.FC<BudgetCalculatorProps> = () => {
+  const { t } = useTranslation();
   const [propertyPrice, setPropertyPrice] = useState<number>(200000);
   const [downPayment, setDownPayment] = useState<number>(20);
   const [mortgageTerm, setMortgageTerm] = useState<number>(30);
@@ -19,7 +21,6 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = () => {
   const [totalUpfrontCosts, setTotalUpfrontCosts] = useState<number>(0);
   const [monthlyPayment, setMonthlyPayment] = useState<number>(0);
   const [closingCosts, setClosingCosts] = useState<number>(0);
-
   const [showAdvancedOptions, setShowAdvancedOptions] = useState<boolean>(false);
 
   useEffect(() => {
@@ -53,7 +54,7 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h1 className="text-3xl font-bold mb-6 text-center">Budget Calculator</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">{t('calculator.title')}</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <PropertyDetailsForm
           propertyPrice={propertyPrice}

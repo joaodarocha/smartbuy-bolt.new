@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface CostsBreakdownProps {
   totalUpfrontCosts: number;
@@ -7,25 +8,45 @@ interface CostsBreakdownProps {
 }
 
 const CostsBreakdown: React.FC<CostsBreakdownProps> = ({
-  totalUpfrontCosts,
-  monthlyPayment,
-  closingCosts,
-}) => {
+                                                         totalUpfrontCosts,
+                                                         monthlyPayment,
+                                                         closingCosts,
+                                                       }) => {
+  const { t } = useTranslation();
+
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-4">Cost Breakdown</h2>
+      <h2 className="text-xl font-semibold mb-4">{t('calculator.costBreakdown')}</h2>
       <div className="space-y-4">
         <div>
-          <p className="text-sm font-medium text-gray-700">Total Upfront Costs</p>
-          <p className="text-2xl font-bold text-blue-600">€{totalUpfrontCosts.toFixed(2)}</p>
+          <p
+            className="text-sm font-medium text-gray-700">{t('calculator.totalUpfrontCosts')}</p>
+          <p className="text-2xl font-bold text-blue-600">
+            €{totalUpfrontCosts.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          })}
+          </p>
         </div>
         <div>
-          <p className="text-sm font-medium text-gray-700">Monthly Mortgage Payment</p>
-          <p className="text-2xl font-bold text-green-600">€{monthlyPayment.toFixed(2)}</p>
+          <p
+            className="text-sm font-medium text-gray-700">{t('calculator.monthlyMortgagePayment')}</p>
+          <p className="text-2xl font-bold text-green-600">
+            €{monthlyPayment.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          })}
+          </p>
         </div>
         <div>
-          <p className="text-sm font-medium text-gray-700">Closing Costs</p>
-          <p className="text-2xl font-bold text-red-600">€{closingCosts.toFixed(2)}</p>
+          <p
+            className="text-sm font-medium text-gray-700">{t('calculator.closingCosts')}</p>
+          <p className="text-2xl font-bold text-red-600">
+            €{closingCosts.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          })}
+          </p>
         </div>
       </div>
     </div>

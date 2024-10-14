@@ -1,16 +1,20 @@
 import { CircleUser } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 const UserButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const { logout } = useAuth();
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const popoverRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (buttonRef.current && !buttonRef.current.contains(event.target as Node)) {
+    if (
+      buttonRef.current && !buttonRef.current.contains(event.target as Node) &&
+      popoverRef.current && !popoverRef.current.contains(event.target as Node)
+    ) {
       setIsOpen(false);
     }
   };
@@ -33,7 +37,9 @@ const UserButton: React.FC = () => {
       </button>
       {isOpen && (
         <div
-          className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg">
+          ref={popoverRef}
+          className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg"
+        >
           <button
             onClick={() => {
               navigate('/profile');

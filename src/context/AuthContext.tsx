@@ -10,6 +10,7 @@ interface User {
 interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
+  loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
@@ -27,12 +28,15 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      setIsAuthenticated(true);
       fetchUserData(token);
+    }
+    else {
+      setLoading(false);
     }
   }, []);
 
@@ -42,7 +46,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      // Ensure we only set properties that can be safely cloned
       const safeUser: User = {
         id: response.data.id,
         email: response.data.email,
@@ -50,9 +53,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
 
       setUser(safeUser);
+      setIsAuthenticated(true);
     } catch (error) {
       console.error('Error fetching user data:', error);
       logout();
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -66,7 +72,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.setItem('token', token);
       setIsAuthenticated(true);
 
-      // Ensure we only set properties that can be safely cloned
       const safeUser: User = {
         id: user.id,
         email: user.email,
@@ -87,7 +92,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
