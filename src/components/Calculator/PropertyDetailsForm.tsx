@@ -1,10 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import DownPaymentInput from './DownPaymentInput';
-import InterestRateInput from './InterestRateInput';
+import MaterialInput from '../MaterialInput';
 import LocationInput from './LocationInput';
-import MortgageTermInput from './MortgageTermInput';
-import PropertyPriceInput from './PropertyPriceInput';
 
 interface PropertyDetailsFormProps {
   propertyPrice: number;
@@ -33,34 +30,33 @@ const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
                                                                  }) => {
   const { t } = useTranslation();
 
-  const adjustDownPayment = (amount: number) => {
-    setDownPayment(Math.max(0, Math.min(100, downPayment + amount)));
-  };
-
-  const presetPropertyPrices = [100000, 150000, 200000, 250000, 300000];
-
   return (
     <div>
-      <h2
-        className="text-xl font-semibold mb-4">{t('calculator.propertyDetails')}</h2>
+      <h2 className="text-xl font-semibold mb-4">{t('calculator.propertyDetails')}</h2>
       <div className="space-y-4">
-        <PropertyPriceInput
-          propertyPrice={propertyPrice}
-          setPropertyPrice={setPropertyPrice}
-          presetPropertyPrices={presetPropertyPrices}
+        <MaterialInput
+          label={t('calculator.propertyPrice')}
+          value={propertyPrice}
+          onChange={setPropertyPrice}
+          type="currency"
         />
-        <DownPaymentInput
-          downPayment={downPayment}
-          setDownPayment={setDownPayment}
-          adjustDownPayment={adjustDownPayment}
+        <MaterialInput
+          label={t('calculator.downPayment')}
+          value={downPayment}
+          onChange={setDownPayment}
+          type="percentage"
         />
-        <MortgageTermInput
-          mortgageTerm={mortgageTerm}
-          setMortgageTerm={setMortgageTerm}
+        <MaterialInput
+          label={t('calculator.mortgageTerm')}
+          value={mortgageTerm}
+          onChange={setMortgageTerm}
+          type="years"
         />
-        <InterestRateInput
-          interestRate={interestRate}
-          setInterestRate={setInterestRate}
+        <MaterialInput
+          label={t('calculator.interestRate')}
+          value={interestRate}
+          onChange={setInterestRate}
+          type="percentage"
         />
         <LocationInput
           location={location}

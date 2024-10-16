@@ -1,16 +1,32 @@
-import { Calculator, ChevronLeft, ChevronRight, FileText, Home } from 'lucide-react';
+import {
+  Calculator,
+  ChevronLeft,
+  ChevronRight,
+  DollarSign,
+  FileText
+} from 'lucide-react';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import NavbarItem from './NavbarItem';
 
 const Navbar: React.FC = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const location = useLocation();
+  const { t } = useTranslation();
 
   const menuItems = [
-    { icon: Calculator, label: 'How much upfront?', path: '/home/budget-calculator' },
-    { icon: Home, label: 'Can I afford it?', path: '/home/can-i-afford' },
-    { icon: FileText, label: 'Any hidden fees?', path: '/home/hidden-fees' },
+    {
+      icon: Calculator,
+      label: t('header.costsCalculator'),
+      path: '/home/budget-calculator'
+    },
+    {
+      icon: DollarSign,
+      label: t('header.affordabilityCheck'),
+      path: '/home/can-i-afford'
+    },
+    { icon: FileText, label: t('header.taxesAndFees'), path: '/home/hidden-fees' },
   ];
 
   return (

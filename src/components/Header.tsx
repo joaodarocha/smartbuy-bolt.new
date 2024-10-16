@@ -30,9 +30,17 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   const menuItems = [
-    { icon: DollarSign, label: 'How much upfront?', path: '/home/budget-calculator' },
-    { icon: Calculator, label: 'Can I afford it?', path: '/home/can-i-afford' },
-    { icon: FileText, label: 'Any hidden fees?', path: '/home/hidden-fees' },
+    {
+      icon: DollarSign,
+      label: t('header.costsCalculator'),
+      path: '/home/budget-calculator'
+    },
+    {
+      icon: Calculator,
+      label: t('header.affordabilityCheck'),
+      path: '/home/can-i-afford'
+    },
+    { icon: FileText, label: t('header.taxesAndFees'), path: '/home/hidden-fees' },
   ];
 
   return (
@@ -53,7 +61,7 @@ const Header: React.FC<HeaderProps> = ({
               <li>
                 <HeaderButton
                   icon={Home}
-                  label="Pricing"
+                  label={t('header.pricing')}
                   onClick={() => scrollToSection('pricing')}
                 />
               </li>
@@ -62,7 +70,7 @@ const Header: React.FC<HeaderProps> = ({
               <li>
                 <HeaderButton
                   icon={Home}
-                  label="FAQs"
+                  label={t('header.faq')}
                   onClick={() => scrollToSection('faq')}
                 />
               </li>

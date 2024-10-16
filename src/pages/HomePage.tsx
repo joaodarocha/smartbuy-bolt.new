@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import BudgetCalculator from '../components/BudgetCalculator/BudgetCalculator';
+import BudgetCalculator from '../components/Calculator/BudgetCalculator';
 import CanIAfford from '../components/CanIAfford';
 import Footer from '../components/Footer';
 import Header from '../components/Header';

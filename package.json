@@ -13,9 +13,14 @@
     "initDB": "rm database.sqlite && touch database.sqlite"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^6.1.4",
+    "@mui/material": "^6.1.4",
     "axios": "^1.6.7",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.4",
+    "cheerio": "^1.0.0-rc.12",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.3",

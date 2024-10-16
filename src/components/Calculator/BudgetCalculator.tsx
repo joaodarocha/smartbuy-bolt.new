@@ -1,13 +1,22 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Actions from './Actions';
 import AdvancedOptions from './AdvancedOptions';
 import CostsBreakdown from './CostsBreakdown';
 import CostsChart from './CostsChart';
-import PropertyDetailsForm from './PropertyDetailsForm/PropertyDetailsForm';
+import PropertyDetailsForm from './PropertyDetailsForm';
 
 interface BudgetCalculatorProps {
   // Add any props if needed
+}
+
+interface EuriborRates {
+  euribor_1_week: number;
+  euribor_1_month: number;
+  euribor_3_months: number;
+  euribor_6_months: number;
+  euribor_12_months: number;
 }
 
 const BudgetCalculator: React.FC<BudgetCalculatorProps> = () => {
@@ -22,9 +31,13 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = () => {
   const [monthlyPayment, setMonthlyPayment] = useState<number>(0);
   const [closingCosts, setClosingCosts] = useState<number>(0);
   const [showAdvancedOptions, setShowAdvancedOptions] = useState<boolean>(false);
+  const [euriborRates, setEuriborRates] = useState<EuriborRates | null>(null);
+
 
   useEffect(() => {
     calculateCosts();
+    fetchEuriborRates();
+
   }, [propertyPrice, downPayment, mortgageTerm, interestRate, location]);
 
   const calculateCosts = () => {
@@ -50,6 +63,15 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = () => {
     setMonthlyPayment(monthlyPayment);
     setClosingCosts(totalClosingCosts);
     setTotalUpfrontCosts(totalUpfrontCosts);
+  };
+
+  const fetchEuriborRates = async () => {
+    try {
+      const response = await axios.get<EuriborRates>('http://localhost:3001/api/euribor-rates');
+      setEuriborRates(response.data);
+    } catch (error) {
+      console.error('Error fetching Euribor rates:', error);
+    }
   };
 
   return (
@@ -80,6 +102,33 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = () => {
           />
         </div>
       </div>
+      {euriborRates && (
+        <div className="mt-6">
+          <h2 className="text-xl font-semibold mb-2">Current Euribor Rates</h2>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div>
+              <p className="font-medium">1 Week</p>
+              <p>{euriborRates.euribor_1_week.toFixed(3)}%</p>
+            </div>
+            <div>
+              <p className="font-medium">1 Month</p>
+              <p>{euriborRates.euribor_1_month.toFixed(3)}%</p>
+            </div>
+            <div>
+              <p className="font-medium">3 Months</p>
+              <p>{euriborRates.euribor_3_months.toFixed(3)}%</p>
+            </div>
+            <div>
+              <p className="font-medium">6 Months</p>
+              <p>{euriborRates.euribor_6_months.toFixed(3)}%</p>
+            </div>
+            <div>
+              <p className="font-medium">12 Months</p>
+              <p>{euriborRates.euribor_12_months.toFixed(3)}%</p>
+            </div>
+          </div>
+        </div>
+      )}
       <Actions/>
       <AdvancedOptions
         showAdvancedOptions={showAdvancedOptions}
