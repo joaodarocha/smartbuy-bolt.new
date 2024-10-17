@@ -7,9 +7,9 @@ interface AdvancedOptionsProps {
 }
 
 const AdvancedOptions: React.FC<AdvancedOptionsProps> = ({
-  showAdvancedOptions,
-  setShowAdvancedOptions,
-}) => {
+                                                           showAdvancedOptions,
+                                                           setShowAdvancedOptions,
+                                                         }) => {
   return (
     <div className="mt-8">
       <button
@@ -17,7 +17,7 @@ const AdvancedOptions: React.FC<AdvancedOptionsProps> = ({
         onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
       >
         {showAdvancedOptions ? 'Hide' : 'Show'} Advanced Options
-        <HelpCircle className="h-4 w-4 ml-1" />
+        <HelpCircle className="h-4 w-4 ml-1"/>
       </button>
       {showAdvancedOptions && (
         <div className="mt-4 p-4 bg-gray-100 rounded-md">

@@ -1,11 +1,13 @@
+// src/components/Header.tsx
 import { Calculator, DollarSign, FileText, Home } from 'lucide-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import HeaderButton from './Buttons/HeaderButton';
-import LanguageButton from './Buttons/LanguageButton';
-import LoginButton from './Buttons/LoginButton';
-import UserButton from './Buttons/UserButton';
+import { routes } from '../routes';
+import HeaderButton from './buttons/HeaderButton';
+import LanguageButton from './buttons/LanguageButton';
+import LoginButton from './buttons/LoginButton';
+import UserButton from './buttons/UserButton';
 
 interface HeaderProps {
   showPricing?: boolean;
@@ -33,20 +35,24 @@ const Header: React.FC<HeaderProps> = ({
     {
       icon: DollarSign,
       label: t('header.costsCalculator'),
-      path: '/home/budget-calculator'
+      path: routes.home + routes.calculator
     },
     {
       icon: Calculator,
       label: t('header.affordabilityCheck'),
-      path: '/home/can-i-afford'
+      path: routes.home + routes.affordability,
     },
-    { icon: FileText, label: t('header.taxesAndFees'), path: '/home/hidden-fees' },
+    {
+      icon: FileText,
+      label: t('header.taxesAndFees'),
+      path: routes.home + routes.taxes,
+    },
   ];
 
   return (
     <header className="bg-white shadow-md">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Link to="/" className="flex items-center space-x-2">
+        <Link to={routes.home} className="flex items-center space-x-2">
           <Home className="h-8 w-8 text-blue-600"/>
           <span className="text-xl font-bold text-gray-800">{t('appName')}</span>
         </Link>

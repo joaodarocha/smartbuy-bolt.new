@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import MaterialInput from '../MaterialInput';
-import LocationInput from './LocationInput';
+import MaterialInput from '../form/MaterialInput';
+import MaterialSelect from '../form/MaterialSelect';
 
 interface PropertyDetailsFormProps {
   propertyPrice: number;
@@ -29,6 +29,19 @@ const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
                                                                    setLocation,
                                                                  }) => {
   const { t } = useTranslation();
+  const [downPaymentType, setDownPaymentType] = useState<'%' | '€'>('%');
+
+  const handleDownPaymentChange = (value: number) => {
+    if (downPaymentType === '%') {
+      setDownPayment(value);
+    }
+    else {
+      const percentageValue = ( value / propertyPrice ) * 100;
+      setDownPayment(percentageValue);
+    }
+  };
+
+  const formattedDownPayment = downPaymentType === '%' ? downPayment : ( downPayment / 100 ) * propertyPrice;
 
   return (
     <div>
@@ -40,12 +53,20 @@ const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
           onChange={setPropertyPrice}
           type="currency"
         />
-        <MaterialInput
-          label={t('calculator.downPayment')}
-          value={downPayment}
-          onChange={setDownPayment}
-          type="percentage"
-        />
+        <div className="flex items-center space-x-2">
+          <MaterialInput
+            label={t('calculator.downPayment')}
+            value={formattedDownPayment}
+            onChange={handleDownPaymentChange}
+            type={downPaymentType === '%' ? 'percentage' : 'currency'}
+          />
+          <MaterialSelect
+            value={downPaymentType}
+            onChange={(value) => setDownPaymentType(value as '%' | '€')}
+            options={['%', '€']}
+            label={t('calculator.downPaymentType')}
+          />
+        </div>
         <MaterialInput
           label={t('calculator.mortgageTerm')}
           value={mortgageTerm}
@@ -58,9 +79,11 @@ const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
           onChange={setInterestRate}
           type="percentage"
         />
-        <LocationInput
-          location={location}
-          setLocation={setLocation}
+        <MaterialSelect
+          value={location}
+          onChange={setLocation}
+          options={['Continente', 'Madeira', 'Açores']}
+          label={t('calculator.location')}
         />
       </div>
     </div>

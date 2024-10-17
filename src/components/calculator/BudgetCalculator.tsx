@@ -25,7 +25,7 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = () => {
   const [downPayment, setDownPayment] = useState<number>(20);
   const [mortgageTerm, setMortgageTerm] = useState<number>(30);
   const [interestRate, setInterestRate] = useState<number>(3);
-  const [location, setLocation] = useState<string>('Lisboa');
+  const [location, setLocation] = useState<string>('Continente');
 
   const [totalUpfrontCosts, setTotalUpfrontCosts] = useState<number>(0);
   const [monthlyPayment, setMonthlyPayment] = useState<number>(0);

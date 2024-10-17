@@ -8,6 +8,7 @@ import {
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+import { routes } from '../routes';
 import NavbarItem from './NavbarItem';
 
 const Navbar: React.FC = () => {
@@ -19,14 +20,18 @@ const Navbar: React.FC = () => {
     {
       icon: Calculator,
       label: t('header.costsCalculator'),
-      path: '/home/budget-calculator'
+      path: routes.home + routes.calculator
     },
     {
       icon: DollarSign,
       label: t('header.affordabilityCheck'),
-      path: '/home/can-i-afford'
+      path: routes.home + routes.affordability
     },
-    { icon: FileText, label: t('header.taxesAndFees'), path: '/home/hidden-fees' },
+    {
+      icon: FileText,
+      label: t('header.taxesAndFees'),
+      path: routes.home + routes.taxes
+    },
   ];
 
   return (

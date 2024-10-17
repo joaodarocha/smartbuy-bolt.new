@@ -15,7 +15,7 @@ const CostsChart: React.FC<CostsChartProps> = ({ propertyPrice, downPayment }) =
     datasets: [
       {
         data: [
-          (propertyPrice * downPayment) / 100,
+          ( propertyPrice * downPayment ) / 100,
           propertyPrice * 0.06, // IMT (simplified)
           propertyPrice * 0.008, // Stamp Duty
           1000, // Notary Fees (example)
@@ -48,13 +48,16 @@ const CostsChart: React.FC<CostsChartProps> = ({ propertyPrice, downPayment }) =
       },
       tooltip: {
         callbacks: {
-          label: function(context: any) {
+          label: function (context: any) {
             let label = context.label || '';
             if (label) {
               label += ': ';
             }
             if (context.parsed !== null) {
-              label += new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR' }).format(context.parsed);
+              label += new Intl.NumberFormat('pt-PT', {
+                style: 'currency',
+                currency: 'EUR'
+              }).format(context.parsed);
             }
             return label;
           }
@@ -65,7 +68,7 @@ const CostsChart: React.FC<CostsChartProps> = ({ propertyPrice, downPayment }) =
 
   return (
     <div className="mt-6">
-      <Pie data={chartData} options={chartOptions} />
+      <Pie data={chartData} options={chartOptions}/>
     </div>
   );
 };
