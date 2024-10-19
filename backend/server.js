@@ -2,16 +2,14 @@ import express from 'express';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import sqlite3 from 'sqlite3';
-import { open } from 'sqlite';
 import dotenv from 'dotenv';
 import FormData from 'form-data';
 import Mailgun from 'mailgun.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import fs from 'fs/promises';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
+import initializeDatabase from './initDatabase.js';
 
 dotenv.config();
 
@@ -25,80 +23,9 @@ app.use(express.json());
 let db;
 
 // Initialize SQLite database
-async function initializeDatabase() {
-    const dbPath = path.join(__dirname, 'database.sqlite');
-    console.log('Database path:', dbPath);
-
-    // Check if the database file exists
-    try {
-        await fs.access(dbPath);
-        console.log('Database file exists');
-    } catch (error) {
-        console.log('Database file does not exist, creating a new one');
-        await fs.writeFile(dbPath, ''); // Create an empty file
-    }
-
-    db = await open({
-        filename: dbPath,
-        driver: sqlite3.Database
-    });
-
-    await db.exec(`
-        CREATE TABLE IF NOT EXISTS users
-        (
-            id
-            INTEGER
-            PRIMARY
-            KEY
-            AUTOINCREMENT,
-            email
-            TEXT
-            UNIQUE,
-            password
-            TEXT,
-            is_confirmed
-            BOOLEAN
-            DEFAULT
-            1,
-            type
-            TEXT
-            CHECK (
-            type
-            IN
-        (
-            'advanced',
-            'premium'
-        )) DEFAULT 'advanced'
-            )
-    `);
-
-    await db.exec(`
-        CREATE TABLE IF NOT EXISTS euribor_rates
-        (
-            id
-            INTEGER
-            PRIMARY
-            KEY
-            AUTOINCREMENT,
-            euribor_1_week
-            REAL,
-            euribor_1_month
-            REAL,
-            euribor_3_months
-            REAL,
-            euribor_6_months
-            REAL,
-            euribor_12_months
-            REAL,
-            fetch_date
-            TEXT
-        )
-    `);
-
-    console.log('Database initialized successfully');
-}
-
-initializeDatabase().catch(console.error);
+initializeDatabase().then(database => {
+    db = database;
+}).catch(console.error);
 
 // Initialize Mailgun
 const mailgun = new Mailgun(FormData);
@@ -136,8 +63,8 @@ app.post('/api/register', async (req, res) => {
         }
         const hashedPassword = await bcrypt.hash(password, 10);
         // Directly insert the user without confirmation token and set is_confirmed to 1
-        const result = await db.run(
-            'INSERT INTO users (email, password, is_confirmed, type) VALUES (?, ?, 1, ?)',
+        await db.run(
+            'INSERT INTO users (email, password, type) VALUES (?, ?, ?)',
             email, hashedPassword, type || 'advanced'
         );
         res.status(201).json({message: 'User registered successfully. You can now log in.'});
