@@ -1,24 +1,15 @@
 import { Card, CardContent, Typography } from '@mui/material';
-import React, { useState } from 'react';
-import FoldableSection from './calculator/FoldableSection';
+import React from 'react';
 
 interface MaterialCardProps {
   title: string;
   value: number;
   color: string;
-  breakdown: React.ReactNode;
 }
 
-const MaterialCard: React.FC<MaterialCardProps> = ({
-                                                     title,
-                                                     value,
-                                                     color,
-                                                     breakdown
-                                                   }) => {
-  const [showBreakdown, setShowBreakdown] = useState(false);
-
+const MaterialCard: React.FC<MaterialCardProps> = ({ title, value, color }) => {
   return (
-    <Card>
+    <Card className="shadow-lg">
       <CardContent>
         <Typography variant="h6" color="textSecondary" gutterBottom>
           {title}
@@ -29,9 +20,6 @@ const MaterialCard: React.FC<MaterialCardProps> = ({
           maximumFractionDigits: 2,
         })}
         </Typography>
-        <FoldableSection showSection={showBreakdown} setShowSection={setShowBreakdown}>
-          {breakdown}
-        </FoldableSection>
       </CardContent>
     </Card>
   );

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MaterialCard from '../MaterialCard';
+import FoldableSection from './FoldableSection';
 
 interface CostsBreakdownProps {
   totalUpfrontCosts: number;
@@ -24,6 +25,7 @@ const CostsBreakdown: React.FC<CostsBreakdownProps> = ({
                                                          registrationFees,
                                                        }) => {
   const { t } = useTranslation();
+  const [showBreakdown, setShowBreakdown] = useState(false);
 
   const breakdown = (
     <div>
@@ -77,15 +79,17 @@ const CostsBreakdown: React.FC<CostsBreakdownProps> = ({
   );
 
   return (
-    <div>
+    <div className="p-[5px]">
       <h2 className="text-xl font-semibold mb-4">{t('calculator.costBreakdown')}</h2>
       <div className="space-y-4">
         <MaterialCard
           title={t('calculator.totalUpfrontCosts')}
           value={totalUpfrontCosts}
           color="blue"
-          breakdown={breakdown}
         />
+        <FoldableSection showSection={showBreakdown} setShowSection={setShowBreakdown}>
+          {breakdown}
+        </FoldableSection>
         <div>
           <p
             className="text-sm font-medium text-gray-700">{t('calculator.monthlyMortgagePayment')}</p>
