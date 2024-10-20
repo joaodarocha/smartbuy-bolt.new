@@ -90,26 +90,16 @@ const CostsBreakdown: React.FC<CostsBreakdownProps> = ({
         <FoldableSection showSection={showBreakdown} setShowSection={setShowBreakdown}>
           {breakdown}
         </FoldableSection>
-        <div>
-          <p
-            className="text-sm font-medium text-gray-700">{t('calculator.monthlyMortgagePayment')}</p>
-          <p className="text-2xl font-bold text-green-600">
-            €{monthlyPayment.toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
-          </p>
-        </div>
-        <div>
-          <p
-            className="text-sm font-medium text-gray-700">{t('calculator.taxesAndFees')}</p>
-          <p className="text-2xl font-bold text-red-600">
-            €{closingCosts.toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
-          </p>
-        </div>
+        <MaterialCard
+          title={t('calculator.monthlyMortgagePayment')}
+          value={monthlyPayment}
+          color="green"
+        />
+        <MaterialCard
+          title={t('calculator.taxesAndFees')}
+          value={closingCosts}
+          color="orange"
+        />
       </div>
     </div>
   );
