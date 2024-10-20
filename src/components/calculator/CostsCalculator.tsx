@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MaterialTable from '../MaterialTable';
 import Actions from './Actions';
-import AdvancedOptions from './AdvancedOptions';
 import CostsBreakdown from './CostsBreakdown';
 import CostsChart from './CostsChart';
 import PropertyDetailsForm from './PropertyDetailsForm';
@@ -25,6 +24,11 @@ const CostsCalculator: React.FC = () => {
   const [totalUpfrontCosts, setTotalUpfrontCosts] = useState<number>(0);
   const [monthlyPayment, setMonthlyPayment] = useState<number>(0);
   const [closingCosts, setClosingCosts] = useState<number>(0);
+  const [downPaymentAmount, setDownPaymentAmount] = useState<number>(0);
+  const [imt, setImt] = useState<number>(0);
+  const [stampDuty, setStampDuty] = useState<number>(0);
+  const [notaryFees, setNotaryFees] = useState<number>(0);
+  const [registrationFees, setRegistrationFees] = useState<number>(0);
   const [showAdvancedOptions, setShowAdvancedOptions] = useState<boolean>(false);
   const [euriborRates, setEuriborRates] = useState<EuriborRates | null>(null);
 
@@ -56,6 +60,11 @@ const CostsCalculator: React.FC = () => {
     setMonthlyPayment(monthlyPayment);
     setClosingCosts(totalClosingCosts);
     setTotalUpfrontCosts(totalUpfrontCosts);
+    setDownPaymentAmount(downPaymentAmount);
+    setImt(imt);
+    setStampDuty(stampDuty);
+    setNotaryFees(notaryFees);
+    setRegistrationFees(registrationFees);
   };
 
   const fetchEuriborRates = async () => {
@@ -99,6 +108,11 @@ const CostsCalculator: React.FC = () => {
             totalUpfrontCosts={totalUpfrontCosts}
             monthlyPayment={monthlyPayment}
             closingCosts={closingCosts}
+            downPaymentAmount={downPaymentAmount}
+            imt={imt}
+            stampDuty={stampDuty}
+            notaryFees={notaryFees}
+            registrationFees={registrationFees}
           />
           <CostsChart
             propertyPrice={propertyPrice}
@@ -116,10 +130,6 @@ const CostsCalculator: React.FC = () => {
         </div>
       )}
       <Actions/>
-      <AdvancedOptions
-        showAdvancedOptions={showAdvancedOptions}
-        setShowAdvancedOptions={setShowAdvancedOptions}
-      />
     </div>
   );
 };
