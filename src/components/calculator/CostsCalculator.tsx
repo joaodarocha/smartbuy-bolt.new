@@ -20,6 +20,8 @@ const CostsCalculator: React.FC = () => {
   const [mortgageTerm, setMortgageTerm] = useState<number>(30);
   const [interestRate, setInterestRate] = useState<number>(3);
   const [location, setLocation] = useState<string>('Continente');
+  const [isFirstProperty, setIsFirstProperty] = useState<boolean>(true);
+  const [isYoungBuyer, setIsYoungBuyer] = useState<boolean>(false);
 
   const [totalUpfrontCosts, setTotalUpfrontCosts] = useState<number>(0);
   const [monthlyPayment, setMonthlyPayment] = useState<number>(0);
@@ -35,7 +37,7 @@ const CostsCalculator: React.FC = () => {
   useEffect(() => {
     calculateCosts();
     fetchEuriborRates();
-  }, [propertyPrice, downPayment, mortgageTerm, interestRate, location]);
+  }, [propertyPrice, downPayment, mortgageTerm, interestRate, location, isFirstProperty, isYoungBuyer, imt]);
 
   const calculateCosts = () => {
     const downPaymentAmount = ( propertyPrice * downPayment ) / 100;
@@ -44,12 +46,9 @@ const CostsCalculator: React.FC = () => {
     const numberOfPayments = mortgageTerm * 12;
 
     const monthlyPayment =
-      ( loanAmount *
-        ( monthlyInterestRate *
-          Math.pow(1 + monthlyInterestRate, numberOfPayments) ) ) /
+      ( loanAmount * ( monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments) ) ) /
       ( Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1 );
 
-    const imt = propertyPrice * 0.06;
     const stampDuty = propertyPrice * 0.008;
     const notaryFees = 1000;
     const registrationFees = 500;
@@ -61,7 +60,6 @@ const CostsCalculator: React.FC = () => {
     setClosingCosts(totalClosingCosts);
     setTotalUpfrontCosts(totalUpfrontCosts);
     setDownPaymentAmount(downPaymentAmount);
-    setImt(imt);
     setStampDuty(stampDuty);
     setNotaryFees(notaryFees);
     setRegistrationFees(registrationFees);
@@ -102,6 +100,7 @@ const CostsCalculator: React.FC = () => {
           setInterestRate={setInterestRate}
           location={location}
           setLocation={setLocation}
+          setIMT={setImt}
         />
         <div>
           <CostsBreakdown
@@ -109,10 +108,13 @@ const CostsCalculator: React.FC = () => {
             monthlyPayment={monthlyPayment}
             closingCosts={closingCosts}
             downPaymentAmount={downPaymentAmount}
-            imt={imt}
             stampDuty={stampDuty}
             notaryFees={notaryFees}
             registrationFees={registrationFees}
+            propertyPrice={propertyPrice}
+            location={location}
+            isFirstProperty={isFirstProperty}
+            isYoungBuyer={isYoungBuyer}
           />
           <CostsChart
             propertyPrice={propertyPrice}
@@ -122,7 +124,7 @@ const CostsCalculator: React.FC = () => {
       </div>
       {euriborRates && (
         <div className="mt-6">
-          <h2 className="text-xl font-semibold mb-2">{t('euriborRates.title')}</h2>
+          <h2 className="text-xl font-semibold mb-2">{t('euriborRates')}</h2>
           <MaterialTable
             columns={['euribor_3_months', 'euribor_6_months', 'euribor_12_months']}
             data={transformEuriborRates(euriborRates)}

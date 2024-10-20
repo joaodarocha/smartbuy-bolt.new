@@ -1,6 +1,6 @@
 import InputAdornment from '@mui/material/InputAdornment/index';
 import TextField from '@mui/material/TextField';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface MaterialInputProps {
@@ -17,6 +17,8 @@ const MaterialInput: React.FC<MaterialInputProps> = ({
                                                        type
                                                      }) => {
   const { t } = useTranslation();
+  const [inputValue, setInputValue] = useState<string>(value.toString());
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -29,24 +31,37 @@ const MaterialInput: React.FC<MaterialInputProps> = ({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
-    const numericValue = type === 'currency' ? Number(inputValue.replace(/,/g, '')) : Number(inputValue);
-    onChange(numericValue);
+    setInputValue(inputValue);
+
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    const newTimeoutId = setTimeout(() => {
+      const numericValue = type === 'currency' ? Number(inputValue.replace(/,/g, '')) : Number(inputValue);
+      onChange(numericValue);
+      setInputValue(type === 'currency' ? formatCurrency(numericValue) : numericValue.toString());
+    }, 600);
+
+    setTimeoutId(newTimeoutId);
   };
+
+  useEffect(() => {
+    setInputValue(type === 'currency' ? formatCurrency(value) : value.toString());
+  }, [value, type]);
 
   return (
     <TextField
       label={label}
-      value={type === 'currency' ? formatCurrency(value) : value}
+      value={inputValue}
       onChange={handleChange}
-      slotProps={{
-        input: {
-          startAdornment: type === 'currency' ?
-            <InputAdornment position="start">€</InputAdornment> : null,
-          endAdornment: type === 'percentage' ?
-            <InputAdornment position="end">%</InputAdornment> :
-            type === 'years' ? <InputAdornment
-              position="end">{t('calculator.years')}</InputAdornment> : null,
-        }
+      InputProps={{
+        startAdornment: type === 'currency' ?
+          <InputAdornment position="start">€</InputAdornment> : null,
+        endAdornment: type === 'percentage' ?
+          <InputAdornment position="end">%</InputAdornment> :
+          type === 'years' ? <InputAdornment
+            position="end">{t('calculator.years')}</InputAdornment> : null,
       }}
       fullWidth
       variant="outlined"

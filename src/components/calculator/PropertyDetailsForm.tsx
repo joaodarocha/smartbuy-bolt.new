@@ -15,6 +15,7 @@ interface PropertyDetailsFormProps {
   setInterestRate: (value: number) => void;
   location: string;
   setLocation: (value: string) => void;
+  setIMT: (value: number) => void;
 }
 
 const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
@@ -28,6 +29,7 @@ const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
                                                                    setInterestRate,
                                                                    location,
                                                                    setLocation,
+                                                                   setIMT,
                                                                  }) => {
   const { t } = useTranslation();
   const [downPaymentType, setDownPaymentType] = useState<string>('%');
@@ -58,7 +60,7 @@ const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
     downPaymentType === '%' ? 'calculator.downPaymentPercentage' : 'calculator.downPaymentCurrency';
 
   return (
-    <div>
+    <div className="p-[5px]">
       <h2 className="text-xl font-semibold mb-4">{t('calculator.propertyDetails')}</h2>
       <div className="space-y-4">
         <MaterialInput
@@ -72,17 +74,16 @@ const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
             label={t(downPaymentLabelKey)}
             value={formattedDownPayment}
             onChange={handleDownPaymentChange}
-            type={downPaymentType === '%' ? 'percentage' : 'currency'}
+            type="currency"
           />
           <MaterialToggle
             value={downPaymentType}
             onChange={handleDownPaymentTypeChange}
             options={[
               { value: '%', label: '%' },
-              { value: '€', label: '€' },
+              { value: '€', label: '€' }
             ]}
-            ariaLabel="down payment type"
-          />
+            ariaLabel={t('calculator.downPayment')}/>
         </div>
         <MaterialInput
           label={t('calculator.mortgageTerm')}

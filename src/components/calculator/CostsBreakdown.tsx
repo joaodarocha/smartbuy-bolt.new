@@ -1,17 +1,23 @@
+// CostsBreakdown.tsx
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MaterialCard from '../MaterialCard';
+import CostItem from './CostItem';
 import FoldableSection from './FoldableSection';
+import useCalculateIMT from './useCalculateIMT';
 
 interface CostsBreakdownProps {
   totalUpfrontCosts: number;
   monthlyPayment: number;
   closingCosts: number;
   downPaymentAmount: number;
-  imt: number;
   stampDuty: number;
   notaryFees: number;
   registrationFees: number;
+  propertyPrice: number;
+  location: string;
+  isFirstProperty: boolean;
+  isYoungBuyer: boolean;
 }
 
 const CostsBreakdown: React.FC<CostsBreakdownProps> = ({
@@ -19,62 +25,32 @@ const CostsBreakdown: React.FC<CostsBreakdownProps> = ({
                                                          monthlyPayment,
                                                          closingCosts,
                                                          downPaymentAmount,
-                                                         imt,
                                                          stampDuty,
                                                          notaryFees,
                                                          registrationFees,
+                                                         propertyPrice,
+                                                         location,
+                                                         isFirstProperty,
+                                                         isYoungBuyer,
                                                        }) => {
   const { t } = useTranslation();
   const [showBreakdown, setShowBreakdown] = useState(false);
 
+  const { imt, rate } = useCalculateIMT({
+    propertyPrice,
+    location,
+    isFirstProperty,
+    isYoungBuyer
+  });
+
   const breakdown = (
     <div>
-      <div>
-        <p className="text-sm font-medium text-gray-700">{t('calculator.downPayment')}</p>
-        <p className="text-2xl font-bold text-gray-800">
-          €{downPaymentAmount.toLocaleString('en-US', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}
-        </p>
-      </div>
-      <div>
-        <p className="text-sm font-medium text-gray-700">{t('calculator.imt')}</p>
-        <p className="text-2xl font-bold text-gray-800">
-          €{imt.toLocaleString('en-US', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}
-        </p>
-      </div>
-      <div>
-        <p className="text-sm font-medium text-gray-700">{t('calculator.stampDuty')}</p>
-        <p className="text-2xl font-bold text-gray-800">
-          €{stampDuty.toLocaleString('en-US', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}
-        </p>
-      </div>
-      <div>
-        <p className="text-sm font-medium text-gray-700">{t('calculator.notaryFees')}</p>
-        <p className="text-2xl font-bold text-gray-800">
-          €{notaryFees.toLocaleString('en-US', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}
-        </p>
-      </div>
-      <div>
-        <p
-          className="text-sm font-medium text-gray-700">{t('calculator.registrationFees')}</p>
-        <p className="text-2xl font-bold text-gray-800">
-          €{registrationFees.toLocaleString('en-US', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}
-        </p>
-      </div>
+      <CostItem labelKey="calculator.downPayment" amount={downPaymentAmount}/>
+      <CostItem labelKey="calculator.imt" amount={imt}
+                rightSpan={`(${t('rate')} ${rate}%)`}/>
+      <CostItem labelKey="calculator.stampDuty" amount={stampDuty}/>
+      <CostItem labelKey="calculator.notaryFees" amount={notaryFees}/>
+      <CostItem labelKey="calculator.registrationFees" amount={registrationFees}/>
     </div>
   );
 
