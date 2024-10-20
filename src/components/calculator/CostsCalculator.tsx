@@ -100,7 +100,10 @@ const CostsCalculator: React.FC = () => {
           setInterestRate={setInterestRate}
           location={location}
           setLocation={setLocation}
-          setIMT={setImt}
+          isFirstProperty={isFirstProperty}
+          setIsFirstProperty={setIsFirstProperty}
+          isYoungBuyer={isYoungBuyer}
+          setIsYoungBuyer={setIsYoungBuyer}
         />
         <div>
           <CostsBreakdown

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MaterialInput from '../form/MaterialInput';
 import MaterialSelect from '../form/MaterialSelect';
+import MaterialSwitch from '../form/MaterialSwitch';
 import MaterialToggle from '../form/MaterialToggle';
 
 interface PropertyDetailsFormProps {
@@ -15,7 +16,10 @@ interface PropertyDetailsFormProps {
   setInterestRate: (value: number) => void;
   location: string;
   setLocation: (value: string) => void;
-  setIMT: (value: number) => void;
+  isFirstProperty: boolean;
+  setIsFirstProperty: (value: boolean) => void;
+  isYoungBuyer: boolean;
+  setIsYoungBuyer: (value: boolean) => void;
 }
 
 const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
@@ -29,7 +33,10 @@ const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
                                                                    setInterestRate,
                                                                    location,
                                                                    setLocation,
-                                                                   setIMT,
+                                                                   isFirstProperty,
+                                                                   setIsFirstProperty,
+                                                                   isYoungBuyer,
+                                                                   setIsYoungBuyer,
                                                                  }) => {
   const { t } = useTranslation();
   const [downPaymentType, setDownPaymentType] = useState<string>('%');
@@ -68,6 +75,16 @@ const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
           value={propertyPrice}
           onChange={setPropertyPrice}
           type="currency"
+        />
+        <MaterialSwitch
+          label="Is this your first property?"
+          checked={isFirstProperty}
+          onChange={(e) => setIsFirstProperty(e.target.checked)}
+        />
+        <MaterialSwitch
+          label="Are you up to 35 years old?"
+          checked={isYoungBuyer}
+          onChange={(e) => setIsYoungBuyer(e.target.checked)}
         />
         <div className="flex items-center space-x-2">
           <MaterialInput
