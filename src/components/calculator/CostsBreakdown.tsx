@@ -40,7 +40,7 @@ const CostsBreakdown: React.FC<CostsBreakdownProps> = ({
         </div>
         <div>
           <p
-            className="text-sm font-medium text-gray-700">{t('calculator.closingCosts')}</p>
+            className="text-sm font-medium text-gray-700">{t('calculator.taxesAndFees')}</p>
           <p className="text-2xl font-bold text-red-600">
             €{closingCosts.toLocaleString('en-US', {
             minimumFractionDigits: 2,

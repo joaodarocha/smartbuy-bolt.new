@@ -3,11 +3,11 @@ import { Calculator, DollarSign, FileText, Home } from 'lucide-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { routes } from '../routes';
-import HeaderButton from './buttons/HeaderButton';
-import LanguageButton from './buttons/LanguageButton';
-import LoginButton from './buttons/LoginButton';
-import UserButton from './buttons/UserButton';
+import { routes } from '../../routes';
+import HeaderButton from '../buttons/HeaderButton';
+import LanguageButton from '../buttons/LanguageButton';
+import LoginButton from '../buttons/LoginButton';
+import UserButton from '../buttons/UserButton';
 
 interface HeaderProps {
   showPricing?: boolean;

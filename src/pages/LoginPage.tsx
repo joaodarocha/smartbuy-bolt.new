@@ -1,6 +1,7 @@
 import { LogIn } from 'lucide-react';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { routes } from '..//routes';
 import { useAuth } from '../context/AuthContext';
 
 const LoginPage: React.FC = () => {
@@ -15,7 +16,7 @@ const LoginPage: React.FC = () => {
     setError('');
     try {
       await login(email, password);
-      navigate('/home');
+      navigate(routes.home + routes.calculator);
     } catch (err) {
       setError('Failed to log in. Please check your credentials.');
     }

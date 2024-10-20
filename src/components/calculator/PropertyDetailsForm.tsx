@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MaterialInput from '../form/MaterialInput';
 import MaterialSelect from '../form/MaterialSelect';
+import MaterialToggle from '../form/MaterialToggle';
 
 interface PropertyDetailsFormProps {
   propertyPrice: number;
@@ -29,7 +30,7 @@ const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
                                                                    setLocation,
                                                                  }) => {
   const { t } = useTranslation();
-  const [downPaymentType, setDownPaymentType] = useState<'%' | '€'>('%');
+  const [downPaymentType, setDownPaymentType] = useState<string>('%');
 
   const handleDownPaymentChange = (value: number) => {
     if (downPaymentType === '%') {
@@ -41,7 +42,20 @@ const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
     }
   };
 
-  const formattedDownPayment = downPaymentType === '%' ? downPayment : ( downPayment / 100 ) * propertyPrice;
+  const handleDownPaymentTypeChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newType: string
+  ) => {
+    if (newType !== null) {
+      setDownPaymentType(newType);
+    }
+  };
+
+  const formattedDownPayment =
+    downPaymentType === '%' ? downPayment : ( downPayment / 100 ) * propertyPrice;
+
+  const downPaymentLabelKey =
+    downPaymentType === '%' ? 'calculator.downPaymentPercentage' : 'calculator.downPaymentCurrency';
 
   return (
     <div>
@@ -55,16 +69,19 @@ const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
         />
         <div className="flex items-center space-x-2">
           <MaterialInput
-            label={t('calculator.downPayment')}
+            label={t(downPaymentLabelKey)}
             value={formattedDownPayment}
             onChange={handleDownPaymentChange}
             type={downPaymentType === '%' ? 'percentage' : 'currency'}
           />
-          <MaterialSelect
+          <MaterialToggle
             value={downPaymentType}
-            onChange={(value) => setDownPaymentType(value as '%' | '€')}
-            options={['%', '€']}
-            label={t('calculator.downPaymentType')}
+            onChange={handleDownPaymentTypeChange}
+            options={[
+              { value: '%', label: '%' },
+              { value: '€', label: '€' },
+            ]}
+            ariaLabel="down payment type"
           />
         </div>
         <MaterialInput

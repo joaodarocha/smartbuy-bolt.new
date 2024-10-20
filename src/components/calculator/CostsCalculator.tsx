@@ -1,25 +1,20 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import MaterialTable from '../MaterialTable';
 import Actions from './Actions';
 import AdvancedOptions from './AdvancedOptions';
 import CostsBreakdown from './CostsBreakdown';
 import CostsChart from './CostsChart';
 import PropertyDetailsForm from './PropertyDetailsForm';
 
-interface BudgetCalculatorProps {
-  // Add any props if needed
-}
-
 interface EuriborRates {
-  euribor_1_week: number;
-  euribor_1_month: number;
   euribor_3_months: number;
   euribor_6_months: number;
   euribor_12_months: number;
 }
 
-const BudgetCalculator: React.FC<BudgetCalculatorProps> = () => {
+const CostsCalculator: React.FC = () => {
   const { t } = useTranslation();
   const [propertyPrice, setPropertyPrice] = useState<number>(200000);
   const [downPayment, setDownPayment] = useState<number>(20);
@@ -33,11 +28,9 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = () => {
   const [showAdvancedOptions, setShowAdvancedOptions] = useState<boolean>(false);
   const [euriborRates, setEuriborRates] = useState<EuriborRates | null>(null);
 
-
   useEffect(() => {
     calculateCosts();
     fetchEuriborRates();
-
   }, [propertyPrice, downPayment, mortgageTerm, interestRate, location]);
 
   const calculateCosts = () => {
@@ -74,6 +67,17 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = () => {
     }
   };
 
+  const transformEuriborRates = (rates: EuriborRates | null) => {
+    if (!rates) return [];
+    return [
+      {
+        euribor_3_months: rates.euribor_3_months,
+        euribor_6_months: rates.euribor_6_months,
+        euribor_12_months: rates.euribor_12_months,
+      },
+    ];
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h1 className="text-3xl font-bold mb-6 text-center">{t('calculator.title')}</h1>
@@ -104,29 +108,11 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = () => {
       </div>
       {euriborRates && (
         <div className="mt-6">
-          <h2 className="text-xl font-semibold mb-2">Current Euribor Rates</h2>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <div>
-              <p className="font-medium">1 Week</p>
-              <p>{euriborRates.euribor_1_week.toFixed(3)}%</p>
-            </div>
-            <div>
-              <p className="font-medium">1 Month</p>
-              <p>{euriborRates.euribor_1_month.toFixed(3)}%</p>
-            </div>
-            <div>
-              <p className="font-medium">3 Months</p>
-              <p>{euriborRates.euribor_3_months.toFixed(3)}%</p>
-            </div>
-            <div>
-              <p className="font-medium">6 Months</p>
-              <p>{euriborRates.euribor_6_months.toFixed(3)}%</p>
-            </div>
-            <div>
-              <p className="font-medium">12 Months</p>
-              <p>{euriborRates.euribor_12_months.toFixed(3)}%</p>
-            </div>
-          </div>
+          <h2 className="text-xl font-semibold mb-2">{t('euriborRates.title')}</h2>
+          <MaterialTable
+            columns={['euribor_3_months', 'euribor_6_months', 'euribor_12_months']}
+            data={transformEuriborRates(euriborRates)}
+          />
         </div>
       )}
       <Actions/>
@@ -138,4 +124,4 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = () => {
   );
 };
 
-export default BudgetCalculator;
+export default CostsCalculator;

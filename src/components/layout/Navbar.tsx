@@ -8,7 +8,7 @@ import {
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { routes } from '../routes';
+import { routes } from '../../routes';
 import NavbarItem from './NavbarItem';
 
 const Navbar: React.FC = () => {

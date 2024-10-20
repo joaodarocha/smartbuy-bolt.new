@@ -1,10 +1,10 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import BudgetCalculator from '../components/calculator/BudgetCalculator';
+import CostsCalculator from '../components/calculator/CostsCalculator';
 import CanIAfford from '../components/CanIAfford';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
-import Navbar from '../components/Navbar';
+import Footer from '../components/layout/Footer';
+import Header from '../components/layout/Header';
+import Navbar from '../components/layout/Navbar';
 import { routes } from '../routes';
 
 const HomePage: React.FC = () => {
@@ -16,8 +16,8 @@ const HomePage: React.FC = () => {
         <Navbar/>
         <main className="flex-grow p-6 overflow-y-auto">
           <Routes>
-            <Route path={routes.home} element={<Navigate to={routes.calculator}/>}/>
-            <Route path={routes.calculator} element={<BudgetCalculator/>}/>
+            <Route path={'/'} element={<Navigate to={routes.home + routes.calculator}/>}/>
+            <Route path={routes.calculator} element={<CostsCalculator/>}/>
             <Route path={routes.affordability} element={<CanIAfford/>}/>
           </Routes>
         </main>

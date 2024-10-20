@@ -1,10 +1,10 @@
 import React from 'react';
-import Advantages from '../components/Advantages';
-import FAQ from '../components/FAQ';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
-import Hero from '../components/Hero';
-import Pricing from '../components/Pricing';
+import Advantages from '../components/layout/Advantages';
+import FAQ from '../components/layout/FAQ';
+import Footer from '../components/layout/Footer';
+import Header from '../components/layout/Header';
+import Hero from '../components/layout/Hero';
+import Pricing from '../components/layout/Pricing';
 
 const LandingPage: React.FC = () => {
   return (
