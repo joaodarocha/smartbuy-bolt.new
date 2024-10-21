@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import MaterialInfo from '../form/MaterialInfo';
 import MaterialInput from '../form/MaterialInput';
 import MaterialSelect from '../form/MaterialSelect';
 import MaterialSwitch from '../form/MaterialSwitch';
 import MaterialToggle from '../form/MaterialToggle';
+
 
 interface PropertyDetailsFormProps {
   propertyPrice: number;
@@ -114,12 +116,15 @@ const PropertyDetailsForm: React.FC<PropertyDetailsFormProps> = ({
           onChange={setInterestRate}
           type="percentage"
         />
-        <MaterialSelect
-          value={location}
-          onChange={setLocation}
-          options={['Continente', 'Madeira', 'Açores']}
-          label={t('calculator.location')}
-        />
+        <div className="flex items-center space-x-2">
+          <MaterialSelect
+            value={location}
+            onChange={setLocation}
+            options={['Continente', 'Madeira e Açores']}
+            label={t('calculator.location')}
+          />
+          <MaterialInfo description={t('calculator.locationInfo')}/>
+        </div>
       </div>
     </div>
   );

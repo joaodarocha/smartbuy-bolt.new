@@ -24,6 +24,7 @@ const resources = {
         imt: "IMT",
         interestRate: "Interest Rate",
         location: "Location",
+        locationInfo: "Select the location of the property. The location affects the IMT rate.",
         monthlyMortgagePayment: "Monthly Mortgage Payment",
         mortgageTerm: "Mortgage Term",
         notaryFees: "Notary Fees",
