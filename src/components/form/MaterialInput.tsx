@@ -55,13 +55,15 @@ const MaterialInput: React.FC<MaterialInputProps> = ({
       label={label}
       value={inputValue}
       onChange={handleChange}
-      InputProps={{
-        startAdornment: type === 'currency' ?
-          <InputAdornment position="start">€</InputAdornment> : null,
-        endAdornment: type === 'percentage' ?
-          <InputAdornment position="end">%</InputAdornment> :
-          type === 'years' ? <InputAdornment
-            position="end">{t('calculator.years')}</InputAdornment> : null,
+      slotProps={{
+        input: {
+          startAdornment: type === 'currency' ?
+            <InputAdornment position="start">€</InputAdornment> : null,
+          endAdornment: type === 'percentage' ?
+            <InputAdornment position="end">%</InputAdornment> :
+            type === 'years' ? <InputAdornment
+              position="end">{t('calculator.years')}</InputAdornment> : null,
+        }
       }}
       fullWidth
       variant="outlined"
