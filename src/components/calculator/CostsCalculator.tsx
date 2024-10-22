@@ -6,6 +6,7 @@ import Actions from './Actions';
 import CostsBreakdown from './CostsBreakdown';
 import CostsChart from './CostsChart';
 import PropertyDetailsForm from './PropertyDetailsForm';
+import useCalculateIMT from './useCalculateIMT';
 
 interface EuriborRates {
   euribor_3_months: number;
@@ -27,12 +28,17 @@ const CostsCalculator: React.FC = () => {
   const [monthlyPayment, setMonthlyPayment] = useState<number>(0);
   const [closingCosts, setClosingCosts] = useState<number>(0);
   const [downPaymentAmount, setDownPaymentAmount] = useState<number>(0);
-  const [imt, setImt] = useState<number>(0);
   const [stampDuty, setStampDuty] = useState<number>(0);
   const [notaryFees, setNotaryFees] = useState<number>(0);
   const [registrationFees, setRegistrationFees] = useState<number>(0);
-  const [showAdvancedOptions, setShowAdvancedOptions] = useState<boolean>(false);
   const [euriborRates, setEuriborRates] = useState<EuriborRates | null>(null);
+
+  const { imt, rate } = useCalculateIMT({
+    propertyPrice,
+    location,
+    isFirstProperty,
+    isYoungBuyer
+  });
 
   useEffect(() => {
     calculateCosts();
@@ -114,14 +120,16 @@ const CostsCalculator: React.FC = () => {
             stampDuty={stampDuty}
             notaryFees={notaryFees}
             registrationFees={registrationFees}
-            propertyPrice={propertyPrice}
-            location={location}
-            isFirstProperty={isFirstProperty}
-            isYoungBuyer={isYoungBuyer}
+            imt={imt}
+            rate={rate}
           />
           <CostsChart
             propertyPrice={propertyPrice}
             downPayment={downPayment}
+            imt={imt}
+            stampDuty={stampDuty}
+            notaryFees={notaryFees}
+            registrationFees={registrationFees}
           />
         </div>
       </div>

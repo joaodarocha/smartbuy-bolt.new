@@ -1,25 +1,45 @@
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js';
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
+import { useTranslation } from 'react-i18next';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface CostsChartProps {
   propertyPrice: number;
   downPayment: number;
+  imt: number;
+  stampDuty: number;
+  notaryFees: number;
+  registrationFees: number;
 }
 
-const CostsChart: React.FC<CostsChartProps> = ({ propertyPrice, downPayment }) => {
+const CostsChart: React.FC<CostsChartProps> = ({
+                                                 propertyPrice,
+                                                 downPayment,
+                                                 imt,
+                                                 stampDuty,
+                                                 notaryFees,
+                                                 registrationFees
+                                               }) => {
+  const { t } = useTranslation();
+
   const chartData = {
-    labels: ['Down Payment', 'IMT', 'Stamp Duty', 'Notary Fees', 'Registration Fees'],
+    labels: [
+      t('calculator.downPayment'),
+      t('calculator.imt'),
+      t('calculator.stampDuty'),
+      t('calculator.notaryFees'),
+      t('calculator.registrationFees')
+    ],
     datasets: [
       {
         data: [
           ( propertyPrice * downPayment ) / 100,
-          propertyPrice * 0.06, // IMT (simplified)
-          propertyPrice * 0.008, // Stamp Duty
-          1000, // Notary Fees (example)
-          500, // Registration Fees (example)
+          imt,
+          stampDuty,
+          notaryFees,
+          registrationFees,
         ],
         backgroundColor: [
           'rgba(255, 99, 132, 0.8)',
