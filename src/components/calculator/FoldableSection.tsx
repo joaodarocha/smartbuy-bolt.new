@@ -3,12 +3,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface HideAbleSectionProps {
+  className: string;
   showSection: boolean;
   setShowSection: (value: boolean) => void;
   children: React.ReactNode;
 }
 
 const FoldableSection: React.FC<HideAbleSectionProps> = ({
+                                                           className,
                                                            showSection,
                                                            setShowSection,
                                                            children,
@@ -16,7 +18,7 @@ const FoldableSection: React.FC<HideAbleSectionProps> = ({
   const { t } = useTranslation();
 
   return (
-    <div className="mt-8">
+    <div className={className}>
       <button
         className="text-blue-600 hover:text-blue-800 flex items-center"
         onClick={() => setShowSection(!showSection)}

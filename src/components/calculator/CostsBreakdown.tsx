@@ -62,10 +62,12 @@ const CostsBreakdown: React.FC<CostsBreakdownProps> = ({
           title={t('calculator.totalUpfrontCosts')}
           value={totalUpfrontCosts}
           color="blue"
-        />
-        <FoldableSection showSection={showBreakdown} setShowSection={setShowBreakdown}>
-          {breakdown}
-        </FoldableSection>
+        >
+          <FoldableSection className="mt-2" showSection={showBreakdown}
+                           setShowSection={setShowBreakdown}>
+            {breakdown}
+          </FoldableSection>
+        </MaterialCard>
         <MaterialCard
           title={t('calculator.monthlyMortgagePayment')}
           value={monthlyPayment}

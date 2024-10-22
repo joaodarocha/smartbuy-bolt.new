@@ -5,9 +5,10 @@ interface MaterialCardProps {
   title: string;
   value: number;
   color: string;
+  children?: React.ReactNode;
 }
 
-const MaterialCard: React.FC<MaterialCardProps> = ({ title, value, color }) => {
+const MaterialCard: React.FC<MaterialCardProps> = ({ title, value, color, children }) => {
   return (
     <Card className="shadow-lg">
       <CardContent>
@@ -20,6 +21,7 @@ const MaterialCard: React.FC<MaterialCardProps> = ({ title, value, color }) => {
           maximumFractionDigits: 2,
         })}
         </Typography>
+        {children && <div>{children}</div>}
       </CardContent>
     </Card>
   );

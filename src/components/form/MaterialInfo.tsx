@@ -9,7 +9,7 @@ interface MaterialInfoProps {
 
 const MaterialInfo: React.FC<MaterialInfoProps> = ({ description }) => {
   return (
-    <Tooltip title={description} arrow>
+    <Tooltip title={description} arrow placement="top">
       <IconButton>
         <InfoIcon/>
       </IconButton>
