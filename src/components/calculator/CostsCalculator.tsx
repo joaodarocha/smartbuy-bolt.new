@@ -57,7 +57,7 @@ const CostsCalculator: React.FC = () => {
 
     const stampDuty = propertyPrice * 0.008;
     const notaryFees = 1000;
-    const registrationFees = 500;
+    const registrationFees = 250;
 
     const totalClosingCosts = imt + stampDuty + notaryFees + registrationFees;
     const totalUpfrontCosts = downPaymentAmount + totalClosingCosts;

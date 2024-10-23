@@ -39,7 +39,8 @@ const CostsBreakdown: React.FC<CostsBreakdownProps> = ({
                 tooltipMessage={t('calculator.stampDutyExplanation')}/>
       <CostItem labelKey="calculator.notaryFees" amount={notaryFees}
                 tooltipMessage={t('calculator.notaryFeeExplanation')}/>
-      <CostItem labelKey="calculator.registrationFees" amount={registrationFees}/>
+      <CostItem labelKey="calculator.registrationFees" amount={registrationFees}
+                tooltipMessage={t('calculator.registrationFeesExplanation')}/>
     </div>
   );
 
