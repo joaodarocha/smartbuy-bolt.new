@@ -1,14 +1,14 @@
-// CostItem.tsx
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import MaterialInfo from '../form/MaterialInfo';
 
 interface CostItemProps {
   labelKey: string;
   amount: number;
-  rightSpan?: string;
+  tooltipMessage?: string;
 }
 
-const CostItem: React.FC<CostItemProps> = ({ labelKey, amount, rightSpan }) => {
+const CostItem: React.FC<CostItemProps> = ({ labelKey, amount, tooltipMessage }) => {
   const { t } = useTranslation();
 
   return (
@@ -19,8 +19,9 @@ const CostItem: React.FC<CostItemProps> = ({ labelKey, amount, rightSpan }) => {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       })}
-        {rightSpan &&
-            <span className="text-lg font-normal text-gray-500 ml-2">{rightSpan}</span>}
+        {tooltipMessage && (
+          <MaterialInfo description={tooltipMessage}/>
+        )}
       </p>
     </div>
   );
