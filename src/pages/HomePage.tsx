@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import CostsCalculator from '../components/calculator/CostsCalculator';
 import CanIAfford from '../components/CanIAfford';
+import ClaudeCostsCalculator from '../components/ClaudeCostsCalculator';
 import Footer from '../components/layout/Footer';
 import Header from '../components/layout/Header';
 import Navbar from '../components/layout/Navbar';
@@ -19,6 +20,7 @@ const HomePage: React.FC = () => {
             <Route path={'/'} element={<Navigate to={routes.home + routes.calculator}/>}/>
             <Route path={routes.calculator} element={<CostsCalculator/>}/>
             <Route path={routes.affordability} element={<CanIAfford/>}/>
+            <Route path={routes.claude} element={<ClaudeCostsCalculator/>}/>
           </Routes>
         </main>
       </div>

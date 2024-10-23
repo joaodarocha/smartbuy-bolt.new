@@ -3,4 +3,5 @@ export const routes = {
   calculator: '/calculator',
   affordability: '/affordability',
   taxes: '/taxes',
+  claude: '/claude',
 };

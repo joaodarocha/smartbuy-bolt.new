@@ -1,10 +1,4 @@
-import {
-  Calculator,
-  ChevronLeft,
-  ChevronRight,
-  DollarSign,
-  FileText
-} from 'lucide-react';
+import { Calculator, ChevronLeft, ChevronRight, DollarSign, FileText, Settings } from 'lucide-react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
@@ -31,6 +25,11 @@ const Navbar: React.FC = () => {
       icon: FileText,
       label: t('header.taxesAndFees'),
       path: routes.home + routes.taxes
+    },
+    {
+      icon: Settings,
+      label: t('header.claude'),
+      path: routes.home + routes.claude
     },
   ];
 

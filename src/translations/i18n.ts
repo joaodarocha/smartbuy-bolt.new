@@ -6,6 +6,7 @@ const resources = {
     translation: {
       appName: 'SmartBuy',
       header: {
+        claude: 'Claude generated',
         costsCalculator: 'Costs Calculator',
         affordabilityCheck: 'Affordability Check',
         taxesAndFees: 'Taxes and Fees',
@@ -113,6 +114,14 @@ const resources = {
   PT: {
     translation: {
       appName: 'SmartBuy',
+      header: {
+        claude: 'Claude generated',
+        costsCalculator: 'Calculadora de Custos',
+        affordabilityCheck: 'Verificação de Acessibilidade',
+        taxesAndFees: 'Impostos e Taxas',
+        pricing: 'Preços',
+        faq: 'FAQ',
+      },
       calculator: {
         costBreakdown: "Detalhamento de Custos",
         downPayment: "Entrada",
@@ -204,13 +213,7 @@ const resources = {
         phone: 'Telefone: +351 999 123 456',
         rightsReserved: 'Todos os direitos reservados.',
       },
-      header: {
-        costsCalculator: 'Calculadora de Custos',
-        affordabilityCheck: 'Verificação de Acessibilidade',
-        taxesAndFees: 'Impostos e Taxas',
-        pricing: 'Preços',
-        faq: 'FAQ',
-      },
+
       location: 'Localização',
       monthlyMortgagePayment: 'Pagamento Mensal da Hipoteca',
       totalUpfrontCosts: 'Custos Totais Iniciais',
