@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "node backend/server.js",
-    "initDB": "rm backend/database.sqlite && touch backend/database.sqlite"
+    "resetDB": "rm backend/database.db && touch backend/database.db"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",

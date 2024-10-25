@@ -13,10 +13,20 @@ const RegisterPage: React.FC = () => {
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
+  const validatePassword = (password: string) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setSuccess('');
+
+    if (!validatePassword(password)) {
+      setError('Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.');
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError('Passwords do not match');
@@ -37,8 +47,7 @@ const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div
-      className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <UserPlus className="mx-auto h-12 w-12 text-blue-600"/>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -68,8 +77,7 @@ const RegisterPage: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor="password"
-                     className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
               </label>
               <div className="mt-1">
@@ -87,8 +95,7 @@ const RegisterPage: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor="confirm-password"
-                     className="block text-sm font-medium text-gray-700">
+              <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700">
                 Confirm Password
               </label>
               <div className="mt-1">
@@ -106,8 +113,7 @@ const RegisterPage: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor="subscription-type"
-                     className="block text-sm font-medium text-gray-700">
+              <label htmlFor="subscription-type" className="block text-sm font-medium text-gray-700">
                 Subscription Type
               </label>
               <div className="mt-1">

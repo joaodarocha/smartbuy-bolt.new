@@ -9,6 +9,8 @@ import { fileURLToPath } from 'url';
 import rateLimit from 'express-rate-limit';
 import { body, validationResult } from 'express-validator';
 import initializeDatabase from './initDatabase.js';
+import * as cheerio from 'cheerio';
+import axios from "axios";
 
 dotenv.config();
 
@@ -219,7 +221,82 @@ app.post('/api/reset-password-request', authLimiter, async (req, res) => {
 // Apply error handling middleware
 app.use(errorHandler);
 
-// Keep your existing Euribor rates endpoint and other functionality...
+// Function to fetch Euribor rates from the website
+async function fetchEuriborRatesFromWebsite() {
+    const response = await axios.get('https://www.euribor-rates.eu/en/');
+    const $ = cheerio.load(response.data);
+
+    const rates = {
+        euribor_1_week: 0,
+        euribor_1_month: 0,
+        euribor_3_months: 0,
+        euribor_6_months: 0,
+        euribor_12_months: 0
+    };
+
+    $('.table.table-striped tbody tr').each((i, elem) => {
+        const period = $(elem).find('td:first-child a').text().trim().toLowerCase();
+        const rate = parseFloat($(elem).find('td:last-child').text().trim().replace('%', ''));
+
+        switch (period) {
+            case 'euribor 1 week':
+                rates.euribor_1_week = rate;
+                break;
+            case 'euribor 1 month':
+                rates.euribor_1_month = rate;
+                break;
+            case 'euribor 3 months':
+                rates.euribor_3_months = rate;
+                break;
+            case 'euribor 6 months':
+                rates.euribor_6_months = rate;
+                break;
+            case 'euribor 12 months':
+                rates.euribor_12_months = rate;
+                break;
+        }
+    });
+
+    return rates;
+}
+
+// New endpoint to fetch Euribor rates
+app.get('/api/euribor-rates', async (req, res) => {
+    try {
+        const today = new Date().toISOString().split('T')[0];
+
+        // Check if we have rates for today
+        const storedRates = await db.get('SELECT * FROM euribor_rates WHERE fetch_date = ?', today);
+
+        if (storedRates) {
+            console.log('Returning stored Euribor rates');
+            return res.json({
+                euribor_1_week: storedRates.euribor_1_week,
+                euribor_1_month: storedRates.euribor_1_month,
+                euribor_3_months: storedRates.euribor_3_months,
+                euribor_6_months: storedRates.euribor_6_months,
+                euribor_12_months: storedRates.euribor_12_months,
+                fetch_date: storedRates.fetch_date
+            });
+        }
+
+        console.log('Fetching new Euribor rates');
+        const rates = await fetchEuriborRatesFromWebsite();
+
+        // Save the new rates to the database
+        await db.run(`
+            INSERT INTO euribor_rates (euribor_1_week, euribor_1_month, euribor_3_months, euribor_6_months,
+                                       euribor_12_months, fetch_date)
+            VALUES (?, ?, ?, ?, ?, ?)
+        `, [rates.euribor_1_week, rates.euribor_1_month, rates.euribor_3_months, rates.euribor_6_months, rates.euribor_12_months, today]);
+
+        console.log('New Euribor rates saved to database');
+        res.json({...rates, fetch_date: today});
+    } catch (error) {
+        console.error('Error fetching or storing Euribor rates:', error);
+        res.status(500).json({error: 'Error fetching or storing Euribor rates'});
+    }
+});
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
