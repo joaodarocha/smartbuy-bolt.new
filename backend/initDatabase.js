@@ -9,7 +9,7 @@ import bcrypt from 'bcryptjs';
 dotenv.config({path: '.env.dev'});
 
 async function initializeDatabase() {
-    const dbPath = path.join(process.cwd(), 'database.db');
+    const dbPath = path.join(process.cwd(), 'backend', 'database.db');
     console.log('Database path:', dbPath);
 
     try {
