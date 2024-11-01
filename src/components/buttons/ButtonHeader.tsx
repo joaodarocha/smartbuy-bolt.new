@@ -9,7 +9,7 @@ interface HeaderButtonProps {
   onClick?: () => void;
 }
 
-const HeaderButton: React.FC<HeaderButtonProps> = ({
+const ButtonHeader: React.FC<HeaderButtonProps> = ({
                                                      icon: Icon,
                                                      label,
                                                      path,
@@ -42,4 +42,4 @@ const HeaderButton: React.FC<HeaderButtonProps> = ({
   );
 };
 
-export default HeaderButton;
+export default ButtonHeader;

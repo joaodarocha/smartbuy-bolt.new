@@ -2,13 +2,13 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import CostsCalculator from '../components/calculator/CostsCalculator';
 import CanIAfford from '../components/CanIAfford';
-import ClaudeCostsCalculator from '../components/ClaudeCostsCalculator';
+import ClaudeVersion from '../components/ClaudeVersion';
 import Footer from '../components/layout/Footer';
 import Header from '../components/layout/Header';
 import Navbar from '../components/layout/Navbar';
 import { routes } from '../routes';
 
-const HomePage: React.FC = () => {
+const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
@@ -20,7 +20,7 @@ const HomePage: React.FC = () => {
             <Route path={'/'} element={<Navigate to={routes.home + routes.calculator}/>}/>
             <Route path={routes.calculator} element={<CostsCalculator/>}/>
             <Route path={routes.affordability} element={<CanIAfford/>}/>
-            <Route path={routes.claude} element={<ClaudeCostsCalculator/>}/>
+            <Route path={routes.claude} element={<ClaudeVersion/>}/>
           </Routes>
         </main>
       </div>
@@ -29,4 +29,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage;
+export default Home;

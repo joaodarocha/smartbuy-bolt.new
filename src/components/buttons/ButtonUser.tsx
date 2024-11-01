@@ -1,9 +1,12 @@
+import { CircleUser } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
-const LanguageButton: React.FC = () => {
+const ButtonUser: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { i18n } = useTranslation();
+  const navigate = useNavigate();
+  const { logout } = useAuth();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
 
@@ -23,12 +26,6 @@ const LanguageButton: React.FC = () => {
     };
   }, []);
 
-  const toggleLanguage = () => {
-    const newLanguage = i18n.language === 'EN' ? 'PT' : 'EN';
-    i18n.changeLanguage(newLanguage);
-    setIsOpen(false);
-  };
-
   return (
     <div className="relative">
       <button
@@ -36,18 +33,30 @@ const LanguageButton: React.FC = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="text-gray-600 hover:text-blue-600 transition duration-300"
       >
-        {i18n.language}
+        <CircleUser className="h-6 w-6"/>
       </button>
       {isOpen && (
         <div
           ref={popoverRef}
-          className="absolute right-0 mt-2 w-24 bg-white border border-gray-200 rounded shadow-lg"
+          className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg"
         >
           <button
-            onClick={toggleLanguage}
+            onClick={() => {
+              navigate('/profile');
+              setIsOpen(false);
+            }}
             className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
           >
-            {i18n.language === 'EN' ? 'PT' : 'EN'}
+            Profile
+          </button>
+          <button
+            onClick={() => {
+              logout();
+              setIsOpen(false);
+            }}
+            className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+          >
+            Logout
           </button>
         </div>
       )}
@@ -55,4 +64,4 @@ const LanguageButton: React.FC = () => {
   );
 };
 
-export default LanguageButton;
+export default ButtonUser;

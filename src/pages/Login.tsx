@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { routes } from '..//routes';
 import { useAuth } from '../context/AuthContext';
 
-const LoginPage: React.FC = () => {
+const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -111,4 +111,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default Login;

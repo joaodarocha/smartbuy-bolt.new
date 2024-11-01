@@ -2,9 +2,9 @@ import axios from 'axios';
 import { UserPlus } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LoginButton from '../components/buttons/LoginButton';
+import ButtonLogin from '../components/buttons/ButtonLogin';
 
-const RegisterPage: React.FC = () => {
+const Register: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -156,7 +156,7 @@ const RegisterPage: React.FC = () => {
             </div>
 
             <div className="mt-6">
-              <LoginButton className="w-full"/>
+              <ButtonLogin className="w-full"/>
             </div>
           </div>
         </div>
@@ -165,4 +165,4 @@ const RegisterPage: React.FC = () => {
   );
 };
 
-export default RegisterPage;
+export default Register;

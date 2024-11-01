@@ -1,12 +1,9 @@
-import { CircleUser } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
-const UserButton: React.FC = () => {
+const ButtonLanguage: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { i18n } = useTranslation();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
 
@@ -26,6 +23,12 @@ const UserButton: React.FC = () => {
     };
   }, []);
 
+  const toggleLanguage = () => {
+    const newLanguage = i18n.language === 'EN' ? 'PT' : 'EN';
+    i18n.changeLanguage(newLanguage);
+    setIsOpen(false);
+  };
+
   return (
     <div className="relative">
       <button
@@ -33,30 +36,18 @@ const UserButton: React.FC = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="text-gray-600 hover:text-blue-600 transition duration-300"
       >
-        <CircleUser className="h-6 w-6"/>
+        {i18n.language}
       </button>
       {isOpen && (
         <div
           ref={popoverRef}
-          className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg"
+          className="absolute right-0 mt-2 w-24 bg-white border border-gray-200 rounded shadow-lg"
         >
           <button
-            onClick={() => {
-              navigate('/profile');
-              setIsOpen(false);
-            }}
+            onClick={toggleLanguage}
             className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
           >
-            Profile
-          </button>
-          <button
-            onClick={() => {
-              logout();
-              setIsOpen(false);
-            }}
-            className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
-          >
-            Logout
+            {i18n.language === 'EN' ? 'PT' : 'EN'}
           </button>
         </div>
       )}
@@ -64,4 +55,4 @@ const UserButton: React.FC = () => {
   );
 };
 
-export default UserButton;
+export default ButtonLanguage;

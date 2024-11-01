@@ -6,7 +6,7 @@ interface LoginButtonProps {
   className?: string;
 }
 
-const LoginButton: React.FC<LoginButtonProps> = ({ className = '' }) => {
+const ButtonLogin: React.FC<LoginButtonProps> = ({ className = '' }) => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -24,4 +24,4 @@ const LoginButton: React.FC<LoginButtonProps> = ({ className = '' }) => {
   );
 };
 
-export default LoginButton;
+export default ButtonLogin;

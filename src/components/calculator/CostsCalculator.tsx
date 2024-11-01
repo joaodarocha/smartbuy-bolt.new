@@ -5,7 +5,7 @@ import MaterialTable from '../MaterialTable';
 import Actions from './Actions';
 import CostsBreakdown from './CostsBreakdown';
 import CostsChart from './CostsChart';
-import PropertyDetailsForm from './PropertyDetailsForm';
+import DetailsForm from './DetailsForm';
 import useCalculateIMT from './useCalculateIMT';
 
 interface EuriborRates {
@@ -95,7 +95,7 @@ const CostsCalculator: React.FC = () => {
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h1 className="text-3xl font-bold mb-6 text-center">{t('calculator.title')}</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <PropertyDetailsForm
+        <DetailsForm
           propertyPrice={propertyPrice}
           setPropertyPrice={setPropertyPrice}
           downPayment={downPayment}

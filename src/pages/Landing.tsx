@@ -6,7 +6,7 @@ import Header from '../components/layout/Header';
 import Hero from '../components/layout/Hero';
 import Pricing from '../components/layout/Pricing';
 
-const LandingPage: React.FC = () => {
+const Landing: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header showPricing showFAQ/>
@@ -21,4 +21,4 @@ const LandingPage: React.FC = () => {
   );
 };
 
-export default LandingPage;
+export default Landing;

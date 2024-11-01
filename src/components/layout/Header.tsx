@@ -4,10 +4,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { routes } from '../../routes';
-import HeaderButton from '../buttons/HeaderButton';
-import LanguageButton from '../buttons/LanguageButton';
-import LoginButton from '../buttons/LoginButton';
-import UserButton from '../buttons/UserButton';
+import ButtonHeader from '../buttons/ButtonHeader';
+import ButtonLanguage from '../buttons/ButtonLanguage';
+import ButtonLogin from '../buttons/ButtonLogin';
+import ButtonUser from '../buttons/ButtonUser';
 
 interface HeaderProps {
   showPricing?: boolean;
@@ -60,12 +60,12 @@ const Header: React.FC<HeaderProps> = ({
           <ul className="flex space-x-6">
             {showMenuItems && menuItems.map((item, index) => (
               <li key={index}>
-                <HeaderButton icon={item.icon} label={item.label} path={item.path}/>
+                <ButtonHeader icon={item.icon} label={item.label} path={item.path}/>
               </li>
             ))}
             {showPricing && (
               <li>
-                <HeaderButton
+                <ButtonHeader
                   icon={Home}
                   label={t('header.pricing')}
                   onClick={() => scrollToSection('pricing')}
@@ -74,7 +74,7 @@ const Header: React.FC<HeaderProps> = ({
             )}
             {showFAQ && (
               <li>
-                <HeaderButton
+                <ButtonHeader
                   icon={Home}
                   label={t('header.faq')}
                   onClick={() => scrollToSection('faq')}
@@ -82,11 +82,11 @@ const Header: React.FC<HeaderProps> = ({
               </li>
             )}
           </ul>
-          <LanguageButton/>
+          <ButtonLanguage/>
           {showUserIcon ? (
-            <UserButton/>
+            <ButtonUser/>
           ) : (
-            <LoginButton/>
+            <ButtonLogin/>
           )}
         </nav>
       </div>
